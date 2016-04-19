@@ -1,0 +1,23 @@
+{
+  "name": "SecureSell",
+  "homepage": "https://github.com/cities2grupo4qp1516/SecretSell",
+  "authors": [
+    "marc adri nacho javi"
+  ],
+  "description": "Venta Anonima",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "Apache",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.3"
+  }
+}
