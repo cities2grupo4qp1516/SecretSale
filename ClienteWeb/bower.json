@@ -25,6 +25,9 @@
     "vegas": "^2.2.0",
     "jquery-countTo": "^1.2.0",
     "animate.css": "^3.5.1",
-    "angular-ui-router-styles": "^1.1.0"
+    "angular-ui-router-styles": "^1.1.0",
+    "owl.carousel": "~2.1.1",
+    "jquery.sticky": "~1.0.0",
+    "font-awesome": "~4.6.1"
   }
 }
