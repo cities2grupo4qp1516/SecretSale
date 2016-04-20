@@ -14,6 +14,9 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
             data: {
                 css: ['views/css/style-left-red.css', 'bower_components/vegas/dist/vegas.css', 'bower_components/animate.css/animate.min.css']
             }
+        }).state('/reg_vendedor', {
+            url: "/reg_vendedor",
+            templateUrl: "views/reg_vendedor.html"
         });
 });
 

@@ -1,0 +1,19 @@
+<div class="col-md-4">
+</div>
+
+<div class="col-md-4">
+<div class="single-sidebar" ng-controller="RegVendedorController">
+  <h2 class="sidebar-title">Regístrare cómo vendedor anónimo</h2>
+  <h3 class="sidebar-title">¿Eres un vendedor válido? Escribe tu CIF para comprobarlo...</h3>
+  <form action="">
+    <input type="text" placeholder="CIF" ng-model="cif">
+    <button type="submit" ng-click = "validar()">Validar</button>
+    <div class="alert alert-success" ng-show = "ok">
+  <strong>CIF Correct</strong> Eres un vendedor válido
+</div>
+<div class="alert alert-danger" ng-show = "error">
+  <strong>CIF Incorrecto</strong> No eres un vendedor válido
+</div>
+  </form>
+</div>
+</div>
