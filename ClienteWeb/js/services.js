@@ -1,6 +1,6 @@
-secretSell.value('version', '0.1');
+secretSale.value('version', '0.1');
 
-secretSell.service("UtilSrvc", function () {
+secretSale.service("UtilSrvc", function () {
     return {
         isAString: function (o) {
             return typeof o == "string" || (typeof o == "object" && o.constructor === String);

@@ -1,6 +1,6 @@
-var secretSell = angular.module('secretSell', ['ui.router', 'uiRouterStyles']);
+var secretSale = angular.module('secretSale', ['ui.router', 'uiRouterStyles']);
 
-secretSell.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.otherwise("404");
 
@@ -17,7 +17,7 @@ secretSell.config(function ($stateProvider, $urlRouterProvider, $locationProvide
         });
 });
 
-secretSell.run(function ($templateCache, $http) {
+secretSale.run(function ($templateCache, $http) {
     $http.get('views/404.html', {
         cache: $templateCache
     });

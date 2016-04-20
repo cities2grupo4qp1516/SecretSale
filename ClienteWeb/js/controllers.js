@@ -1,4 +1,4 @@
-secretSell.controller("MyCtrl1", function ($scope, UtilSrvc) {
+secretSale.controller("MyCtrl1", function ($scope, UtilSrvc) {
 
 })
 
