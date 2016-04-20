@@ -1,0 +1,43 @@
+<div class="global-overlay">
+    <div class="overlay skew-part"></div>
+</div>
+<div class="left-part">
+    <div class="content">
+        <!-- Your logo -->
+        <img src="views/img/logo.png" alt="" class="brand-logo" />
+        <h1>ERROR <div class="timer"></div></h1>
+    </div>
+</div>
+<div class="right-part opacity-0"></div>
+<script src="bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+<script src="bower_components/jquery-countTo/jquery.countTo.js"></script>
+<script src="bower_components/vegas/dist/vegas.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".right-part").addClass("animated-middle fadeIn").removeClass("opacity-0");
+
+        $('.timer').countTo({
+            from: 999,
+            to: 404,
+            speed: 2000,
+            onComplete: function () {
+                $(".timer").addClass("alert-text animated-quick tada");
+            }
+        });
+        $('.right-part').vegas({
+            slides: [
+                {
+                    src: 'views/img/slide1.png'
+            },
+                {
+                    src: 'views/img/slide2.png'
+            }
+        ],
+            delay: 5000,
+            transition: 'fade',
+            animation: 'kenburns'
+        });
+
+    });
+</script>

@@ -1,0 +1,6 @@
+{
+    "jscodehints.detectedExclusions": [
+        "C:/xampp/htdocs/citie/SecretSell/ClienteMovil (Ionic)/SecretSell/platforms/android/assets/www/lib/ionic-platform-web-client/src/auth/es5.js",
+        "C:/xampp/htdocs/citie/SecretSell/ClienteMovil (Ionic)/SecretSell/platforms/android/assets/www/lib/ionic-platform-web-client/src/core/angular.js"
+    ]
+}

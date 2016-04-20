@@ -1,4 +1,4 @@
-myApp.directive('inputtext', function ($timeout) {
+secretSell.directive('inputtext', function ($timeout) {
     return {
         restrict: 'E',
         replace: true,

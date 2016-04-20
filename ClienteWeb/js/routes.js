@@ -1,17 +1,29 @@
-var myApp = angular.module('myApp', ['ui.router']);
+var secretSell = angular.module('secretSell', ['ui.router', 'uiRouterStyles']);
 
-myApp.config(function ($stateProvider, $urlRouterProvider) {
-
-
+secretSell.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.otherwise("404");
 
     $stateProvider
-        .state('state1', {
+        .state('/', {
             url: "/",
             templateUrl: "views/vista.html"
         }).state('404', {
             url: "/404",
-            templateUrl: "views/404.html"
+            templateUrl: "views/404.html",
+            data: {
+                css: ['views/css/style-left-red.css', 'bower_components/vegas/dist/vegas.css', 'bower_components/animate.css/animate.min.css']
+            }
         });
+});
+
+secretSell.run(function ($templateCache, $http) {
+    $http.get('views/404.html', {
+        cache: $templateCache
+    });
+
+    $http.get('views/vista.html', {
+        cache: $templateCache
+    });
+
 });
