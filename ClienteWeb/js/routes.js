@@ -1,4 +1,4 @@
-var secretSale = angular.module('secretSale', ['ui.router', 'uiRouterStyles']);
+var secretSale = angular.module('secretSale', ['jsbn.BigInteger','ui.router', 'uiRouterStyles']);
 
 secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 

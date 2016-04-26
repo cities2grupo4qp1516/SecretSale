@@ -9,9 +9,25 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/publicKey', function (req, res, next) {
+router.post('/', function(req, res, next) {
+ console.log(req.body);
+ var blind = bignum(req.body.blind);
+ var d = keys.privateKey.d.toString();
+ var n = keys.publicKey.n.toString();
+ console.log("LA clave privada del servidor d: ", d);
+ console.log("LA n: ", n);
+ console.log(blind);
+ //AQUI NO ME VA me salta que la bc.powm no es una funcion --que raro-- en pallier me pasa lo mismo//
+ var teta = keys.privateKey.encrypt(blind);
+ console.log(teta);
+ //SI FUNCIONA LO ANTERIOR EL SERVIDOR TE DA UNA FIRMA VALIDA"
+ var sign = {
+     teta: teta.toString()
+ };
+ res.send(JSON.stringify(sign));
+});
 
-    //  console.log(keys_blind.publicKey.n.toString());
+router.get('/publicKey', function (req, res, next) {
     var publickey = {
         bits: keys.publicKey.bits,
         n: keys.publicKey.n.toString(),

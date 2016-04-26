@@ -28,6 +28,9 @@
     "angular-ui-router-styles": "^1.1.0",
     "owl.carousel": "~2.1.1",
     "jquery.sticky": "~1.0.0",
-    "font-awesome": "~4.6.1"
+    "font-awesome": "~4.6.1",
+    "js-sha256": "~0.3.0",
+    "decimal.js": "~5.0.8",
+    "angular-jsbn-big-integer": "~0.0.2"
   }
 }
