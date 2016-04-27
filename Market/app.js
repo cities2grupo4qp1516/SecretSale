@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var objetos = require('./routes/objetos');
 
 var app = express();
 
@@ -25,8 +26,19 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+//fucking CORS
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "*");
+    next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
+app.use('/objetos', objetos);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -43,8 +55,8 @@ if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
-            message: err.message
-            , error: err
+            message: err.message,
+            error: err
         });
     });
 }
@@ -54,8 +66,8 @@ if (app.get('env') === 'development') {
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-        message: err.message
-        , error: {}
+        message: err.message,
+        error: {}
     });
 });
 
