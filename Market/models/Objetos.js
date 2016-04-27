@@ -1,38 +1,38 @@
-var mongoose = require('mongoose')
-    , Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 
 var objetos = new Schema({
     nombre: {
         type: String
-    }
-    , descripcion: {
+    },
+    descripcion: {
         type: String
-    }
-    , vendedor: {
+    },
+    vendedor: {
         type: String
-    }
-    , creacion: {
+    },
+    creacion: {
         type: Date
-    }
-    , precio: {
+    },
+    precio: {
         type: Number
-    }
-    , tipo: {
+    },
+    tipo: {
         type: String
-    }
-    , nota: {
+    },
+    nota: {
         type: Number
-    }
-    , contnotas: {
+    },
+    contnotas: {
         type: Number
-    }
-    , comentarios: {
+    },
+    comentarios: {
         type: [String]
-    }
-    , fotos: {
+    },
+    fotos: {
         type: [String]
-    }
-    , fotoprincipal: {
+    },
+    fotoprincipal: {
         type: String
     }
 });

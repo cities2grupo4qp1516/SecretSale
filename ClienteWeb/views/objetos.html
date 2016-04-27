@@ -1,0 +1,19 @@
+<div class="col-md-4">
+</div>
+
+<div class="col-md-4">
+    <div class="single-sidebar" ng-controller="objetosController">
+        <h2 class="sidebar-title">Vende tu producto!</h2>
+
+        <form enctype='multipart/form-data'>
+            <input type="text" placeholder="Nombre del Producto" ng-model="objeto.nombre">
+            <textarea rows="4" ng-model="objeto.descripcion">
+                Descripcion</textarea>
+            <input type="text" placeholder="vendedor" ng-model="objeto.vendedor">
+            <input type="number" placeholder="precio" ng-model="objeto.precio">
+            <input type="text" placeholder="tipo" ng-model="objeto.tipo">
+            <input type='file' name='fotos' />
+            <button type="submit" ng-click="subirObjeto()">Validar</button>
+        </form>
+    </div>
+</div>
