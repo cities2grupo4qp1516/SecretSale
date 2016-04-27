@@ -1,0 +1,22 @@
+{
+  "name": "TTP",
+  "description": "Server",
+  "main": "ttp.html",
+  "authors": [
+    "NachoTelematic"
+  ],
+  "license": "Apache",
+  "keywords": [
+    "gg"
+  ],
+  "homepage": "https://github.com/cities2grupo4qp1516/SecretSell",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

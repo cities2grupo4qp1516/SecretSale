@@ -1,18 +1,17 @@
+var secretSale = angular.module('secretSale', ['jsbn.BigInteger','ui.router']);
+
 secretSale.constant('config', {
   URLSSS: "http://localhost:3000/",
   URLTTP: "http://localhost:3000/"
 });
 
-secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http, config, BigInteger, rsaKey) {
-  $scope.cif ="";
-  $scope.pseudonimo = "";
-  $scope.ok = false;
-  $scope.error = false;
-  $scope.seudo = false;
-  $scope.seudonimo = "";
+secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http, config, BigInteger, rsaKey, $state) {
+  $scope.validar_datos = true;
+  $scope.mostrar_seudo = false;
 
-  var keys = new rsaKey.generateKeys(1024);
-  console.log(keys.publicKey.n.toString());
+
+//  var keys = new rsaKey.generateKeys(1024);
+  //console.log(keys.publicKey.n.toString());
   var publickey = {
     bits: "",
     n: "",
@@ -38,22 +37,10 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
   $scope.validar = function () {
 
-    if($scope.cif.length < 8){
-      $scope.error = true;
-
-
-    } else if ($scope.cif.length == 8){
-      $scope.ok = true;
-      $scope.error = false;
-      $scope.seudo = true;
-    }
+    console.log("OK");
   };
 
-  $scope.generar = function () {
-    
-
-  };
-
+/*
   $scope.enviar = function (seudonimo) {
 
     var seudohash = sha256(seudonimo);
@@ -96,7 +83,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
     });
 
-  };
+  };*/
 
 })
 

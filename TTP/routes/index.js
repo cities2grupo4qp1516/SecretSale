@@ -1,12 +1,13 @@
 var express = require('express');
 var bignum = require('bignum');
 var rsa = require('../rsa/rsa-bignum');
+var path = require('path');
 var router = express.Router();
 var keys = rsa.generateKeys(1024);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.sendFile(path.join(__dirname, '../public', 'ttp.html'));
 });
 
 router.post('/', function(req, res, next) {
