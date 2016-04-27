@@ -27,7 +27,7 @@ router.get('/usuarios/:userName', function (req, res, next) {
     usuario.findOne({
         'nick': nick
     }, function (err, user) {
-        console.log(user);
+        console.log("\x1b[32m", user);
         if (err)
             res.sendStatus(500);
         else
@@ -75,12 +75,12 @@ router.post('/usuarios', function (req, res, next) {
     } else if (!req.body.edad) {
         console.log("\x1b[31m", "Error: Falta la edad \n");
         res.status(400).send("Falta la edad");
-    } else if (!req.body.pais) {
-        console.log("\x1b[31m", "Error: Falta el pais \n");
-        res.status(400).send("Falta el pais");
     } else if (!req.body.genero) {
         console.log("\x1b[31m", "Error: Falta el genero \n");
         res.status(400).send("Falta el genero");
+    } else if (!req.body.pais) {
+        console.log("\x1b[31m", "Error: Falta el pais \n");
+        res.status(400).send("Falta el pais");
     } else {
         var user = new usuario({
             nick: req.body.nick
