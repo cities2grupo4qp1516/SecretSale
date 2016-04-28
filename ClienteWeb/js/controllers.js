@@ -3,6 +3,26 @@ secretSale.constant('config', {
     URLTTP: "http://localhost:3000/"
 });
 
+secretSale.controller("listaObjetos", function ($scope, $http, config) {
+    $scope.lista = {};
+
+    //../imagenes/
+    $http.get(config.URLSSS + "objetos/filtro/")
+        .success(function (data) {
+            console.log(data);
+            var d = data;
+            /*angular.forEach(d, function (value, key) {
+                console.log(value.fotoprincipal);
+                d[key].fotoprincipal = "../" + d[key].fotoprincipal;
+            });*/
+            $scope.lista = d;
+            console.log($scope.lista);
+        }).error(function (data) {
+            console.log(data);
+        });
+
+});
+
 secretSale.controller("objetosController", function ($scope, $http, config, SweetAlert, $injector) {
     $scope.objeto = {};
     var foto;
@@ -42,7 +62,7 @@ secretSale.controller("objetosController", function ($scope, $http, config, Swee
         fd.append('precio', $scope.objeto.precio);
         fd.append('tipo', $scope.objeto.tipo);
         fd.append('file', $scope.foto);
-
+        console.log(fd);
         $http.post(config.URLSSS + "objetos/nuevo/", fd, {
             transformRequest: angular.identity,
             headers: {
