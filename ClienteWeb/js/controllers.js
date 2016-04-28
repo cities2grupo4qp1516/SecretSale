@@ -1,6 +1,6 @@
 secretSale.constant('config', {
-    URLSSS: "http://localhost:3000/"
-    , URLTTP: "http://localhost:3000/"
+    URLSSS: "http://localhost:3000/",
+    URLTTP: "http://localhost:3000/"
 });
 
 secretSale.controller("objetosController", function ($scope, $http, config, SweetAlert, $injector) {
@@ -82,14 +82,14 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
 
     $scope.registrarUsuario = function () {
         cliente = {
-            nick: $scope.cliente.nick
-            , nombre: $scope.cliente.nombre
-            , apellidos: $scope.cliente.apellidos
-            , password: $scope.cliente.password
-            , mail: $scope.cliente.mail
-            , edad: $scope.cliente.edad
-            , pais: paisfinal
-            , genero: generofinal
+            nick: $scope.cliente.nick,
+            nombre: $scope.cliente.nombre,
+            apellidos: $scope.cliente.apellidos,
+            password: $scope.cliente.password,
+            mail: $scope.cliente.mail,
+            edad: $scope.cliente.edad,
+            pais: paisfinal,
+            genero: generofinal
         }
         $http.post(config.URLTTP + 'users/usuarios', cliente)
             .success(function (data) {
@@ -99,7 +99,7 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
                 console.log('Error: ' + dataa + "");
             });
     }
-});
+})
 
 .controller("MyCtrl2", function ($scope) {
 
@@ -109,24 +109,24 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
                 this.bits = bits;
                 this.n = n;
                 this.e = e;
-            }
-            , privateKey: function (p, q, d, publicKey) {
+            },
+            privateKey: function (p, q, d, publicKey) {
                 this.p = p;
                 this.q = q;
                 this.d = d;
                 this.publicKey = publicKey;
-            }
-            , importKeys: function (impotedKeys) {
+            },
+            importKeys: function (impotedKeys) {
                 var keys = {};
                 impotedKeys.privateKey.publicKey.e = new BigInteger(impotedKeys.privateKey.publicKey.e);
                 impotedKeys.privateKey.publicKey.n = new BigInteger(impotedKeys.privateKey.publicKey.n);
                 keys.publicKey = new rsa.publicKey(impotedKeys.publicKey.bits, new BigInteger(impotedKeys.publicKey.n), new BigInteger(impotedKeys.publicKey.e));
                 keys.privateKey = new rsa.privateKey(new BigInteger(impotedKeys.privateKey.p), new BigInteger(impotedKeys.privateKey.q), new BigInteger(impotedKeys.privateKey.d), impotedKeys.privateKey.publicKey);
                 return keys;
-            }
-            , generateKeys: function (bitlength) {
-                var p, q, n, phi, e, d, keys = {}
-                    , one = new BigInteger('1');
+            },
+            generateKeys: function (bitlength) {
+                var p, q, n, phi, e, d, keys = {},
+                    one = new BigInteger('1');
                 this.bitlength = bitlength || 2048;
                 console.log("Generating RSA keys of", this.bitlength, "bits");
                 p = primeNumber.aleatorio(bitlength);
@@ -143,15 +143,15 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
                 keys.publicKey = new rsa.publicKey(this.bitlength, n, e);
                 keys.privateKey = new rsa.privateKey(p, q, d, keys.publicKey);
                 return keys;
-            }
-            , String2bin: function (str) {
+            },
+            String2bin: function (str) {
                 var bytes = [];
                 for (var i = 0; i < str.length; ++i) {
                     bytes.push(str.charCodeAt(i));
                 }
                 return bytes;
-            }
-            , bin2String: function (array) {
+            },
+            bin2String: function (array) {
                 var result = "";
                 for (var i = 0; i < array.length; i++) {
                     result += String.fromCharCode(array[i]);
@@ -164,11 +164,11 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
         rsa.publicKey.prototype = {
             encrypt: function (m) {
                 return m.modPow(this.e, this.n);
-            }
-            , decrypt: function (c) {
+            },
+            decrypt: function (c) {
                 return c.modPow(this.e, this.n);
-            }
-            , dec: function (c, pass, passs) {
+            },
+            dec: function (c, pass, passs) {
                 return c.modPow(pass, passs);
             }
         };
@@ -176,8 +176,8 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
         rsa.privateKey.prototype = {
             encrypt: function (m) {
                 return m.modPow(this.d, this.publicKey.n);
-            }
-            , decrypt: function (c) {
+            },
+            decrypt: function (c) {
                 return c.modPow(this.d, this.publicKey.n);
             }
         };
@@ -185,12 +185,12 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
 }])
     .factory('primeNumber', ['BigInteger', function (BigInteger) {
         Decimal.config({
-            precision: 300
-            , rounding: 4
-            , toExpNeg: -7
-            , toExpPos: 100
-            , maxE: 9e15
-            , minE: -9e15
+            precision: 300,
+            rounding: 4,
+            toExpNeg: -7,
+            toExpPos: 100,
+            maxE: 9e15,
+            minE: -9e15
         });
         var primo = {
             aleatorio: function (bitLength) {
