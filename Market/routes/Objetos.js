@@ -1,11 +1,13 @@
 var express = require('express');
 var fs = require('fs');
+var im = require('imagemagick');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var router = express.Router();
 
 var objetos = require('../models/Objetos.js');
 var __dirname = 'C:/xampp/htdocs/citie/SecretSale/ClienteWeb/imagenes/';
+var __dirname2 = 'C:/xampp/htdocs/citie/SecretSale/ClienteWeb/imagenes/ok';
 
 router.post('/nuevo', multipartMiddleware, function (req, res, next) {
     console.log("\x1b[33m", "Info: Nos mandan un objeto nuevo para vender:");
@@ -40,7 +42,21 @@ router.post('/nuevo', multipartMiddleware, function (req, res, next) {
                     console.log("\x1b[31m", "Error:" + err + " \n");
                 } else {
                     var newPath = __dirname + imageName;
+                    var newPath2 = __dirname2 + imageName;
                     fs.writeFile(newPath, data, function (err) {
+                        require('lwip').open(newPath, function (err, image) {
+
+                            // check err...
+                            // define a batch of manipulations and save to disk as JPEG:
+                            image.batch()
+                                .resize(200, image.height()) // scale to 75%
+                                .crop(200, 200)
+                                .writeFile(newPath, function (err) {
+                                    // check err...
+                                    // done.
+                                });
+
+                        });
                         console.log("\x1b[33m", "Info: La imagen se ha subido correctamente: \n");
                         console.log("\x1b[33m", "Info: Procedemos a crear el modelo:");
                         var objetoNuevo = new objetos({
