@@ -1,217 +1,240 @@
-<div class="col-md-4">
-</div>
+<div class="single-sidebar" ng-controller="clienteController" ng-init="focus=false;active=false">
+    <div class="wrapper">
+        <div class="head">
+            <h2 class="sidebar-title">Registrate y empieza a comprar!</h2>
+        </div>
+        <div class="body">
+            <form enctype='multipart/form-data' name="Form">
+                <input type="text" placeholder="Username" ng-model="cliente.nick" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
 
-<div class="col-md-4">
-    <div class="single-sidebar" ng-controller="clienteController">
-        <h2 class="sidebar-title">Registrate y empieza a comprar!</h2>
+                <input type="text" placeholder="Nombre" ng-model="cliente.nombre" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
 
-        <form enctype='multipart/form-data'>
-            <input type="text" placeholder="Username" ng-model="cliente.nick">
-            <input type="text" placeholder="Nombre" ng-model="cliente.nombre">
-            <input type="text" placeholder="Apellidos" ng-model="cliente.apellidos">
-            <input type="text" placeholder="Correo" ng-model="cliente.mail">
-            <input type="number" placeholder="Edad" ng-model="cliente.edad">
-            <input type="password" placeholder="Password" ng-model="cliente.password">
-            <select ng-model="genero" ng-change="showSelectValue1(genero)">
-                <option value="Hombre">Hombre</option>
-                <option value="Mujer">Mujer</option>
-            </select>
-            <select placeholder="Pais" ng-model="pais" ng-change="showSelectValue2(pais)">
-                <option value="Albania"><a>Albania</a>
-                </option>
-                <option value="Alemania"><a>Alemania</a>
-                </option>
-                <option value="Andorra"><a>Andorra</a>
-                </option>
-                <option value="Angola"><a>Angola</a>
-                </option>
-                <option value="Arabia Saudí"><a>Arabia Saudí</a>
-                </option>
-                <option value="Argelia"><a>Argelia</a>
-                </option>
-                <option value="Argentina"><a>Argentina</a>
-                </option>
-                <option value="Armenia"><a>Armenia</a>
-                </option>
-                <option value="Australia"><a>Australia</a>
-                </option>
-                <option value="Austria"><a>Austria</a>
-                </option>
-                <option value="Azerbaiyán"><a>Azerbaiyán</a>
-                </option>
-                <option value="Bélgica"><a>Bélgica</a>
-                </option>
-                <option value="Bielorrusia"><a>Bielorrusia</a>
-                </option>
-                <option value="Birmania"><a>Birmania</a>
-                </option>
-                <option value="Bolivia"><a>Bolivia</a>
-                </option>
-                <option value="Bosnia y Herzegovina"><a>Bosnia y Herzegovina</a>
-                </option>
-                <option value="Brasil"><a>Brasil</a>
-                </option>
-                <option value="Bulgaria"><a>Bulgaria</a>
-                </option>
-                <option value="Camerún"><a>Camerún</a>
-                </option>
-                <option value="Canadá"><a>Canadá</a>
-                </option>
-                <option value="Chile"><a>Chile</a>
-                </option>
-                <option value="China"><a>China</a>
-                </option>
-                <option value="Chipre"><a>Chipre</a>
-                </option>
-                <option value="Ciudad del Vaticano"><a>Ciudad del Vaticano</a>
-                </option>
-                <option value="Colombia"><a>Colombia</a>
-                </option>
-                <option value="Corea del Norte"><a>Corea del Norte</a>
-                </option>
-                <option value="Costa Rica"><a>Costa Rica</a>
-                </option>
-                <option value="Croacia"><a>Croacia</a>
-                </option>
-                <option value="Cuba"><a>Cuba</a>
-                </option>
-                <option value="Dinamarca"><a>Dinamarca</a>
-                </option>
-                <option value="Ecuador"><a>Ecuador</a>
-                </option>
-                <option value="Egipto"><a>Egipto</a>
-                </option>
-                <option value="El Salvador"><a>El Salvador</a>
-                </option>
-                <option value="Eslovaquia"><a>Eslovaquia</a>
-                </option>
-                <option value="Eslovenia"><a>Eslovenia</a>
-                </option>
-                <option value="España"><a>España</a>
-                </option>
-                <option value="Estados Unidos"><a>Estados Unidos</a>
-                </option>
-                <option value="Estonia"><a>Estonia</a>
-                </option>
-                <option value="Francia"><a>Francia</a>
-                </option>
-                <option value="Georgia"><a>Georgia</a>
-                </option>
-                <option value="Grecia"><a>Grecia</a>
-                </option>
-                <option value="Guantánamo"><a>Guantánamo</a>
-                </option>
-                <option value="Guatemala"><a>Guatemala</a>
-                </option>
-                <option value="Haití"><a>Haití</a>
-                </option>
-                <option value="Honduras"><a>Honduras</a>
-                </option>
-                <option value="Hungría"><a>Hungría</a>
-                </option>
-                <option value="India"><a>India</a>
-                </option>
-                <option value="Indonesia"><a>Indonesia</a>
-                </option>
-                <option value="Irlanda"><a>Irlanda</a>
-                </option>
-                <option value="Islandia"><a>Islandia</a>
-                </option>
-                <option value="Israel"><a>Israel</a>
-                </option>
-                <option value="Italia"><a>Italia</a>
-                </option>
-                <option value="Jamaica"><a>Jamaica</a>
-                </option>
-                <option value="Japón"><a>Japón</a>
-                </option>
-                <option value="Kazajistán"><a>Kazajistán</a>
-                </option>
-                <option value="Letonia"><a>Letonia</a>
-                </option>
-                <option value="Liechtenstein"><a>Liechtenstein</a>
-                </option>
-                <option value="Lituania"><a>Lituania</a>
-                </option>
-                <option value="Luxemburgo"><a>Luxemburgo</a>
-                </option>
-                <option value="Macedonia"><a>Macedonia</a>
-                </option>
-                <option value="Malta"><a>Malta</a>
-                </option>
-                <option value="Marruecos"><a>Marruecos</a>
-                </option>
-                <option value="Mauricio"><a>Mauricio</a>
-                </option>
-                <option value="México"><a>México</a>
-                </option>
-                <option value="Moldavia"><a>Moldavia</a>
-                </option>
-                <option value="Mónaco"><a>Mónaco</a>
-                </option>
-                <option value="Montenegro"><a>Montenegro</a>
-                </option>
-                <option value="Nepal"><a>Nepal</a>
-                </option>
-                <option value="Nicaragua"><a>Nicaragua</a>
-                </option>
-                <option value="Nigeria"><a>Nigeria</a>
-                </option>
-                <option value="Noruega"><a>Noruega</a>
-                </option>
-                <option value="Nueva Zelanda"><a>Nueva Zelanda</a>
-                </option>
-                <option value="Países Bajos"><a>Países Bajos</a>
-                </option>
-                <option value="Panamá"><a>Panamá</a>
-                </option>
-                <option value="Paraguay"><a>Paraguay</a>
-                </option>
-                <option value="Perú"><a>Perú</a>
-                </option>
-                <option value="Polonia"><a>Polonia</a>
-                </option>
-                <option value="Portugal"><a>Portugal</a>
-                </option>
-                <option value="Reino Unido"><a>Reino Unido</a>
-                </option>
-                <option value="República Checa"><a>República Checa</a>
-                </option>
-                <option value="República Dominicana"><a>República Dominicana</a>
-                </option>
-                <option value="Rumanía"><a>Rumanía</a>
-                </option>
-                <option value="Rusia"><a>Rusia</a>
-                </option>
-                <option value="San Marino"><a>San Marino</a>
-                </option>
-                <option value="Serbia"><a>Serbia</a>
-                </option>
-                <option value="Suecia"><a>Suecia</a>
-                </option>
-                <option value="Suiza"><a>Suiza</a>
-                </option>
-                <option value="Tailandia"><a>Tailandia</a>
-                </option>
-                <option value="Túnez"><a>Túnez</a>
-                </option>
-                <option value="Turquía"><a>Turquía</a>
-                </option>
-                <option value="Ucrania"><a>Ucrania</a>
-                </option>
-                <option value="Uruguay"><a>Uruguay</a>
-                </option>
-                <option value="Venezuela"><a>Venezuela</a>
-                </option>
-                <option value="Vietnam"><a>Vietnam</a>
-                </option>
-                <option value="Mordor"><a>Mordor</a>
-                </option>
-                <option value="Narnia"><a>Narnia</a>
-                </option>
-            </select>
-            <input type='file' name='fotos' />
-            <button type="submit" ng-click="registrarUsuario()">Registrar</button>
-        </form>
+                <input type="text" placeholder="Apellidos" ng-model="cliente.apellidos" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
+
+                <input type="email" placeholder="Correo" ng-model="cliente.mail" validator="required" required-error-message="*Mail incorrecto" valid-method="blur">
+
+                <input type="number" placeholder="Edad" ng-model="cliente.edad" validator="required" required-error-message="*Campo obligatorio/Solo numeros" valid-method="blur">
+
+                <input type="password" placeholder="Password" ng-model="cliente.password" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
+
+                <div style="width: auto; margin-left: 4%; margin-bottom: 40px;">
+                    <div class="styled-select black rounded" style="float: left; width:46%">
+                        <select ng-model="genero" ng-change="showSelectValue1(genero)" validator="required" required-error-message="*Campo obligatorio" valid-method="blur" style="width: 100%;">
+                            <option value="" disabled selected>Genero</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                        </select>
+                    </div>
+
+                    <div class="styled-select black rounded" style="float: left; width: 46%; margin-left: 2%;">
+                        <select ng-model="pais" ng-change="showSelectValue2(pais)" validator="required" required-error-message="*Campo obligatorio" valid-method="blur" style="width: 100%;">
+                            <option value="" disabled selected>País</option>
+                            <option value="Albania"><a>Albania</a>
+                            </option>
+                            <option value="Alemania"><a>Alemania</a>
+                            </option>
+                            <option value="Andorra"><a>Andorra</a>
+                            </option>
+                            <option value="Angola"><a>Angola</a>
+                            </option>
+                            <option value="Arabia Saudí"><a>Arabia Saudí</a>
+                            </option>
+                            <option value="Argelia"><a>Argelia</a>
+                            </option>
+                            <option value="Argentina"><a>Argentina</a>
+                            </option>
+                            <option value="Armenia"><a>Armenia</a>
+                            </option>
+                            <option value="Australia"><a>Australia</a>
+                            </option>
+                            <option value="Austria"><a>Austria</a>
+                            </option>
+                            <option value="Azerbaiyán"><a>Azerbaiyán</a>
+                            </option>
+                            <option value="Bélgica"><a>Bélgica</a>
+                            </option>
+                            <option value="Bielorrusia"><a>Bielorrusia</a>
+                            </option>
+                            <option value="Birmania"><a>Birmania</a>
+                            </option>
+                            <option value="Bolivia"><a>Bolivia</a>
+                            </option>
+                            <option value="Bosnia y Herzegovina"><a>Bosnia y Herzegovina</a>
+                            </option>
+                            <option value="Brasil"><a>Brasil</a>
+                            </option>
+                            <option value="Bulgaria"><a>Bulgaria</a>
+                            </option>
+                            <option value="Camerún"><a>Camerún</a>
+                            </option>
+                            <option value="Canadá"><a>Canadá</a>
+                            </option>
+                            <option value="Chile"><a>Chile</a>
+                            </option>
+                            <option value="China"><a>China</a>
+                            </option>
+                            <option value="Chipre"><a>Chipre</a>
+                            </option>
+                            <option value="Ciudad del Vaticano"><a>Ciudad del Vaticano</a>
+                            </option>
+                            <option value="Colombia"><a>Colombia</a>
+                            </option>
+                            <option value="Corea del Norte"><a>Corea del Norte</a>
+                            </option>
+                            <option value="Costa Rica"><a>Costa Rica</a>
+                            </option>
+                            <option value="Croacia"><a>Croacia</a>
+                            </option>
+                            <option value="Cuba"><a>Cuba</a>
+                            </option>
+                            <option value="Dinamarca"><a>Dinamarca</a>
+                            </option>
+                            <option value="Ecuador"><a>Ecuador</a>
+                            </option>
+                            <option value="Egipto"><a>Egipto</a>
+                            </option>
+                            <option value="El Salvador"><a>El Salvador</a>
+                            </option>
+                            <option value="Eslovaquia"><a>Eslovaquia</a>
+                            </option>
+                            <option value="Eslovenia"><a>Eslovenia</a>
+                            </option>
+                            <option value="España"><a>España</a>
+                            </option>
+                            <option value="Estados Unidos"><a>Estados Unidos</a>
+                            </option>
+                            <option value="Estonia"><a>Estonia</a>
+                            </option>
+                            <option value="Francia"><a>Francia</a>
+                            </option>
+                            <option value="Georgia"><a>Georgia</a>
+                            </option>
+                            <option value="Grecia"><a>Grecia</a>
+                            </option>
+                            <option value="Guantánamo"><a>Guantánamo</a>
+                            </option>
+                            <option value="Guatemala"><a>Guatemala</a>
+                            </option>
+                            <option value="Haití"><a>Haití</a>
+                            </option>
+                            <option value="Honduras"><a>Honduras</a>
+                            </option>
+                            <option value="Hungría"><a>Hungría</a>
+                            </option>
+                            <option value="India"><a>India</a>
+                            </option>
+                            <option value="Indonesia"><a>Indonesia</a>
+                            </option>
+                            <option value="Irlanda"><a>Irlanda</a>
+                            </option>
+                            <option value="Islandia"><a>Islandia</a>
+                            </option>
+                            <option value="Israel"><a>Israel</a>
+                            </option>
+                            <option value="Italia"><a>Italia</a>
+                            </option>
+                            <option value="Jamaica"><a>Jamaica</a>
+                            </option>
+                            <option value="Japón"><a>Japón</a>
+                            </option>
+                            <option value="Kazajistán"><a>Kazajistán</a>
+                            </option>
+                            <option value="Letonia"><a>Letonia</a>
+                            </option>
+                            <option value="Liechtenstein"><a>Liechtenstein</a>
+                            </option>
+                            <option value="Lituania"><a>Lituania</a>
+                            </option>
+                            <option value="Luxemburgo"><a>Luxemburgo</a>
+                            </option>
+                            <option value="Macedonia"><a>Macedonia</a>
+                            </option>
+                            <option value="Malta"><a>Malta</a>
+                            </option>
+                            <option value="Marruecos"><a>Marruecos</a>
+                            </option>
+                            <option value="Mauricio"><a>Mauricio</a>
+                            </option>
+                            <option value="México"><a>México</a>
+                            </option>
+                            <option value="Moldavia"><a>Moldavia</a>
+                            </option>
+                            <option value="Mónaco"><a>Mónaco</a>
+                            </option>
+                            <option value="Montenegro"><a>Montenegro</a>
+                            </option>
+                            <option value="Nepal"><a>Nepal</a>
+                            </option>
+                            <option value="Nicaragua"><a>Nicaragua</a>
+                            </option>
+                            <option value="Nigeria"><a>Nigeria</a>
+                            </option>
+                            <option value="Noruega"><a>Noruega</a>
+                            </option>
+                            <option value="Nueva Zelanda"><a>Nueva Zelanda</a>
+                            </option>
+                            <option value="Países Bajos"><a>Países Bajos</a>
+                            </option>
+                            <option value="Panamá"><a>Panamá</a>
+                            </option>
+                            <option value="Paraguay"><a>Paraguay</a>
+                            </option>
+                            <option value="Perú"><a>Perú</a>
+                            </option>
+                            <option value="Polonia"><a>Polonia</a>
+                            </option>
+                            <option value="Portugal"><a>Portugal</a>
+                            </option>
+                            <option value="Reino Unido"><a>Reino Unido</a>
+                            </option>
+                            <option value="República Checa"><a>República Checa</a>
+                            </option>
+                            <option value="República Dominicana"><a>República Dominicana</a>
+                            </option>
+                            <option value="Rumanía"><a>Rumanía</a>
+                            </option>
+                            <option value="Rusia"><a>Rusia</a>
+                            </option>
+                            <option value="San Marino"><a>San Marino</a>
+                            </option>
+                            <option value="Serbia"><a>Serbia</a>
+                            </option>
+                            <option value="Suecia"><a>Suecia</a>
+                            </option>
+                            <option value="Suiza"><a>Suiza</a>
+                            </option>
+                            <option value="Tailandia"><a>Tailandia</a>
+                            </option>
+                            <option value="Túnez"><a>Túnez</a>
+                            </option>
+                            <option value="Turquía"><a>Turquía</a>
+                            </option>
+                            <option value="Ucrania"><a>Ucrania</a>
+                            </option>
+                            <option value="Uruguay"><a>Uruguay</a>
+                            </option>
+                            <option value="Venezuela"><a>Venezuela</a>
+                            </option>
+                            <option value="Vietnam"><a>Vietnam</a>
+                            </option>
+                            <option value="Mordor"><a>Mordor</a>
+                            </option>
+                            <option value="Narnia"><a>Narnia</a>
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="eye">
+                    <input type='file' file-model="foto" class="custom-file-input" id="imgInp" onchange="angular.element(this).scope().file_changed(this)" accept="image/*" />
+                    <i style="cursor:pointer" class="fa fa-eye" aria-hidden="true" ng-click="fotoVer()" ng-show="ojo"></i>
+                </div>
+                <div class="enviar">
+                    <button class="buto" type="submit" ng-click="registrarUsuario()">Registrar</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <script>
+    </script>
 </div>

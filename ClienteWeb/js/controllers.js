@@ -64,10 +64,12 @@ secretSale.controller("objetosController", function ($scope, $http, config, Swee
     }
 });
 
-secretSale.controller("clienteController", function ($scope, $http, config) {
+secretSale.controller("clienteController", function ($scope, $http, config, SweetAlert, $injector) {
     var paisfinal;
     var generofinal;
-    var cliente = {};
+    var foto;
+    $scope.ojo = false;
+    $scope.cliente = {};
 
     $scope.showSelectValue1 = function (genero) {
         console.log(genero)
@@ -80,24 +82,61 @@ secretSale.controller("clienteController", function ($scope, $http, config) {
         paisfinal = pais;
     }
 
-    $scope.registrarUsuario = function () {
-        cliente = {
-            nick: $scope.cliente.nick,
-            nombre: $scope.cliente.nombre,
-            apellidos: $scope.cliente.apellidos,
-            password: $scope.cliente.password,
-            mail: $scope.cliente.mail,
-            edad: $scope.cliente.edad,
-            pais: paisfinal,
-            genero: generofinal
-        }
-        $http.post(config.URLTTP + 'users/usuarios', cliente)
-            .success(function (data) {
+    $scope.fotoVer = function () {
+        SweetAlert.swal({
+                title: "Esta es tu foto",
+                text: "<img src='" + foto + "'>",
+                html: true
+            },
+            function () {});
+    }
 
-            })
-            .error(function (dataa) {
-                console.log('Error: ' + dataa + "");
-            });
+    $scope.file_changed = function (element) {
+        $scope.ojo = true;
+
+        $scope.$apply(function (scope) {
+            var photofile = element.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                foto = e.target.result;
+            };
+            reader.readAsDataURL(photofile);
+        });
+    };
+
+    $scope.registrarUsuario = function () {
+        console.log("Estoy dentro");
+        var fd = new FormData();
+
+
+        fd.append('nick', $scope.cliente.nick);
+        fd.append('nombre', $scope.cliente.nombre);
+        fd.append('apellidos', $scope.cliente.apellidos);
+        fd.append('password', $scope.cliente.password);
+        fd.append('mail', $scope.cliente.mail);
+        fd.append('edad', $scope.cliente.edad);
+        fd.append('pais', paisfinal);
+        fd.append('genero', generofinal);
+        fd.append('file', $scope.foto);
+
+        $http.post(config.URLTTP + 'users/usuarios', fd, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }).success(function (data) {
+            SweetAlert.swal({
+                    title: "Registro completado con éxito!",
+                    type: "success",
+                    confirmButtonText: "Continuar",
+                },
+                function () {
+                    console.log("weee");
+                });
+        }).error(function (data) {
+            console.log(data);
+            sweetAlert("Oops...", data, "error");
+        });
     }
 })
 
