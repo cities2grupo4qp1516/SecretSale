@@ -1,4 +1,4 @@
-var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles']);
+var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles', 'oitozero.ngSweetAlert', 'validation', 'validation.rule']);
 
 secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -21,6 +21,9 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
         }).state('/objetos', {
             url: "/objetos"
             , templateUrl: "views/objetos.html"
+            , data: {
+                css: ['views/css/objetos.css']
+            }
         }).state('/cliente', {
             url: "/cliente"
             , templateUrl: "views/cliente.html"

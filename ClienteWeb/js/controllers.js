@@ -3,16 +3,64 @@ secretSale.constant('config', {
     , URLTTP: "http://localhost:3000/"
 });
 
-secretSale.controller("objetosController", function ($scope, $http, config) {
-    $scope.subirObjeto = function () {
-        console.log($scope.objeto);
-        $http.post(config.URLTTP + 'objetos/nuevo', $scope.objeto)
-            .success(function (data) {
+secretSale.controller("objetosController", function ($scope, $http, config, SweetAlert, $injector) {
+    $scope.objeto = {};
+    var foto;
+    $scope.ojo = false;
+    var $validationProvider = $injector.get('$validation');
 
-            })
-            .error(function (dataa) {
-                console.log('Error: ' + dataa + "");
-            });
+
+    $scope.fotoVer = function () {
+        //sweetAlert("Esta es tu foto", "<img src=''>");
+        SweetAlert.swal({
+                title: "Esta es tu foto",
+                text: "<img src='" + foto + "'>",
+                html: true
+            },
+            function () {});
+    }
+    $scope.file_changed = function (element) {
+        $scope.ojo = true;
+
+        $scope.$apply(function (scope) {
+            var photofile = element.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // handle onload
+                // no no no nooooooo console.log(e.target.result);
+                foto = e.target.result;
+            };
+            reader.readAsDataURL(photofile);
+        });
+    };
+
+    $scope.subirObjeto = function () {
+        var fd = new FormData();
+        fd.append('nombre', $scope.objeto.nombre);
+        fd.append('descripcion', $scope.objeto.descripcion);
+        fd.append('vendedor', $scope.objeto.vendedor);
+        fd.append('precio', $scope.objeto.precio);
+        fd.append('tipo', $scope.objeto.tipo);
+        fd.append('file', $scope.foto);
+
+        $http.post(config.URLSSS + "objetos/nuevo/", fd, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }).success(function (data) {
+            SweetAlert.swal({
+                    title: "Producto añadido correctamente",
+                    type: "success",
+                    confirmButtonText: "Continuar",
+                },
+                function () {
+                    console.log("weee");
+                });
+        }).error(function (data) {
+            console.log(data);
+            sweetAlert("Oops...", data, "error");
+        });
     }
 });
 
