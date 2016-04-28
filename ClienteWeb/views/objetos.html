@@ -1,19 +1,25 @@
-<div class="col-md-4">
-</div>
-
-<div class="col-md-4">
-    <div class="single-sidebar" ng-controller="objetosController">
-        <h2 class="sidebar-title">Vende tu producto!</h2>
-
-        <form enctype='multipart/form-data'>
-            <input type="text" placeholder="Nombre del Producto" ng-model="objeto.nombre">
-            <textarea rows="4" ng-model="objeto.descripcion">
-                Descripcion</textarea>
-            <input type="text" placeholder="vendedor" ng-model="objeto.vendedor">
-            <input type="number" placeholder="precio" ng-model="objeto.precio">
-            <input type="text" placeholder="tipo" ng-model="objeto.tipo">
-            <input type='file' name='fotos' />
-            <button type="submit" ng-click="subirObjeto()">Validar</button>
-        </form>
+<div class="single-sidebar" ng-controller="objetosController" ng-init="focus=false;active=false">
+    <div class="wrapper">
+        <div class="head">
+            <h2 class="sidebar-title">Vende tu producto!</h2>
+        </div>
+        <div class="body">
+            <form enctype='multipart/form-data' name="Form">
+                <input class="nombre" type="text" placeholder="Nombre del Producto" ng-model="objeto.nombre" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
+                <textarea rows="4" ng-model="objeto.descripcion" placeholder="Descripcion" validator="required" required-error-message="*Campo obligatorio" valid-method="blur"></textarea>
+                <input type="text" placeholder="vendedor" ng-model="objeto.vendedor" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
+                <input type="number" placeholder="precio" ng-model="objeto.precio" validator="required" required-error-message="*Campo obligatorio/Solo numeros" valid-method="blur">
+                <input type="text" placeholder="tipo" ng-model="objeto.tipo" validator="required" required-error-message="*Campo obligatorio" valid-method="blur">
+                <div class="eye">
+                    <input type='file' file-model="foto" class="custom-file-input" id="imgInp" onchange="angular.element(this).scope().file_changed(this)" accept="image/*" />
+                    <i style="cursor:pointer" class="fa fa-eye" aria-hidden="true" ng-click="fotoVer()" ng-show="ojo"></i>
+                </div>
+                <div class="enviar">
+                    <button class="buto" type="submit" ng-click="subirObjeto()">Enviar</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <script>
+    </script>
 </div>
