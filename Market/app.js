@@ -1,3 +1,21 @@
+/* 
+   _____                    _    _____       _                 .        . |
+  / ____|                  | |  / ____|     | |               ;W       ;W |
+ | (___   ___  ___ _ __ ___| |_| (___   __ _| | ___          f#E      f#E |
+  \___ \ / _ \/ __| '__/ _ \ __|\___ \ / _` | |/ _ \       .E#f     .E#f  |
+  ____) |  __/ (__| | |  __/ |_ ____) | (_| | |  __/      iWW;     iWW;   |
+ |_____/ \___|\___|_|  \___|\__|_____/ \__,_|_|\___|     L##Lffi  L##Lffi \
+                                     By BestTeamEver    tLLG##L  tLLG##L  |
+                                                          ,W#i     ,W#i   | 
+                                                         j#E.     j#E.    | 
+                                                       .D#j     .D#j      | 
+                                                      ,WK,     ,WK,       |  
+                                                      EG.      EG.        | 
+                                                      ,        ,          |
+  
+*/
+console.log("   _____                    _    _____       _                 .        . \n  / ____|                  | |  / ____|     | |               ;W       ;W \n | (___   ___  ___ _ __ ___| |_| (___   __ _| | ___          f#E      f#E \n  \\___ \\ / _ \\/ __| '__/ _ \\ __|\\___ \\ / _` | |/ _ \\       .E#f     .E#f  \n  ____) |  __/ (__| | |  __/ |_ ____) | (_| | |  __/      iWW;     iWW;   \n |_____/ \\___|\\___|_|  \\___|\\__|_____/ \\__,_|_|\\___|     L##Lffi  L##Lffi \n                                     By BestTeamEver    tLLG##L  tLLG##L  \n                                                          ,W#i     ,W#i   \n                                                         j#E.     j#E.    \n                                                       .D#j     .D#j      \n                                                      ,WK,     ,WK,       \n                                                      EG.      EG.        \n                                                      ,        ,          \n\n\n");
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,6 +29,7 @@ var users = require('./routes/users');
 var objetos = require('./routes/objetos');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
