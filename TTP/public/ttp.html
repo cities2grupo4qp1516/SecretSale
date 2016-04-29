@@ -59,7 +59,7 @@
 
     <!--<div ui-view></div>-->
 
-    <div ng-controller ="RegVendedorController" ng-show ="validar_datos">
+    <div ng-controller ="RegVendedorController">
     <!-- Header -->
     <header>
         <div class="container">
@@ -93,28 +93,28 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>CIF</label>
-                                <input type="text" class="form-control" placeholder="CIF" id="name" required data-validation-required-message="Porfavor introduce tu CIF">
+                                <input type="text" class="form-control" placeholder="CIF" id="name" required data-validation-required-message="Porfavor introduce tu CIF" ng-model = "cif">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Dirección</label>
-                                <input type="text" class="form-control" placeholder="Dirección" id="name" required data-validation-required-message="Porfavor introduce tu dirección">
+                                <input type="text" class="form-control" placeholder="Dirección" id="name" required data-validation-required-message="Porfavor introduce tu dirección" ng-model="direccion">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Email</label>
-                                <input type="email" class="form-control" placeholder="Email" id="email" required data-validation-required-message="Porfavor introduce tu email">
+                                <input type="email" class="form-control" placeholder="Email" id="email" required data-validation-required-message="Porfavor introduce tu email" ng-model="email">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Número de teléfono</label>
-                                <input type="tel" class="form-control" placeholder="Phone Number" id="phone" required data-validation-required-message="Porfavor introduce tu número de teléfono">
+                                <input type="tel" class="form-control" placeholder="Número de teléfono" id="phone" required data-validation-required-message="Porfavor introduce tu número de teléfono" ng-model="telf">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -131,9 +131,8 @@
         </div>
     </section>
 
-
     <!-- Contact Section -->
-    <section id="contact" ng-show="mostrar_seudo">
+    <section id="seudo">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -149,7 +148,7 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label>Pseudónimo</label>
-                                <input type="text" class="form-control" placeholder="Pseudónimo" id="name" required data-validation-required-message="Porfavor introduce tu Pseudónimo">
+                                <input type="text" class="form-control" placeholder="Pseudónimo" id="name" ng-model="seudonimo" required data-validation-required-message="Porfavor introduce tu Pseudónimo">
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -157,14 +156,46 @@
                         <div id="success"></div>
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                <button type="submit" class="btn btn-success btn-lg">Validar</button>
+                                <button type="submit" class="btn btn-success btn-lg" ng-click = "generar()">Generar claves</button>
+                                <a href="#portfolioModal6" class="btn btn-success btn-lg portfolio-link" data-toggle="modal" type="submit" ng-click = "enviar(seudonimo)">Enviar para firmar</a>
                             </div>
-                        </div>
+                      </div>
+                      <div class="row" ng-show = "claves">
+                          <div class="form-group col-xs-12">
+                              <p class="help-block text-danger">Debes generar las claves primero</p>
+                          </div>
+                    </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+
+    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <h2>Firma TTP</h2>
+                                <hr class="star-primary">
+                                <img src="img/portfolio/cake.png" class="img-responsive img-centered" alt="">
+                                <p style="word-wrap: break-word;">{{c}}</p>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click = "guardar(c)"><i class="fa fa-diamond"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
   </div>
