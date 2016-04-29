@@ -18,5 +18,12 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-jsbn-big-integer": "^0.0.2",
+    "angular-ui-router": "^0.2.18",
+    "js-sha256": "^0.3.0",
+    "decimal.js": "^5.0.8"
+  }
 }

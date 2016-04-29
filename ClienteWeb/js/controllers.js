@@ -1,6 +1,6 @@
 secretSale.constant('config', {
     URLSSS: "http://localhost:3000/",
-    URLTTP: "http://localhost:3000/"
+    URLTTP: "http://localhost:5000/"
 });
 
 secretSale.controller("listaObjetos", function ($scope, $http, config) {
@@ -139,7 +139,7 @@ secretSale.controller("clienteController", function ($scope, $http, config, Swee
         fd.append('genero', generofinal);
         fd.append('file', $scope.foto);
 
-        $http.post(config.URLTTP + 'users/usuarios', fd, {
+        $http.post(config.URLSSS + 'users/usuarios', fd, {
             transformRequest: angular.identity,
             headers: {
                 'Content-Type': undefined

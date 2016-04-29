@@ -6,8 +6,8 @@ var multipartMiddleware = multipart();
 var router = express.Router();
 
 var objetos = require('../models/Objetos.js');
-var __dirname = 'C:/xampp/htdocs/citie/SecretSale/ClienteWeb/imagenes/';
-var __dirname2 = 'C:/xampp/htdocs/citie/SecretSale/ClienteWeb/imagenes/ok';
+var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes/';
+var __dirname2 = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes/ok';
 
 router.post('/nuevo', multipartMiddleware, function (req, res, next) {
     console.log("\x1b[33m", "Info: Nos mandan un objeto nuevo para vender:");
