@@ -15,7 +15,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
   $scope.claves = false;
 
-  var ok = false;
+
   var keys;
   var seudo_Kpub;
   $scope.cif = "";
@@ -93,15 +93,13 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
     file = window.URL.createObjectURL(data);
     downloadURI(file, "keys.RSA");
+    $scope.claves = true;
 
-    ok = true;
   };
 
 
   $scope.enviar = function (seudonimo) {
-    if(ok == false){
-      $scope.claves = true;
-    }
+    
 
     seudo_Kpub = seudonimo + "," + keys.publicKey.n.toString() + "," + keys.publicKey.e.toString();
     var seudo_Kpub_64 = Base64.encode(seudo_Kpub);
