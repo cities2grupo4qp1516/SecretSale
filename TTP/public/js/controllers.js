@@ -14,14 +14,17 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
     }
 
     $scope.claves = false;
-
+    $scope.prep = false;
+    $scope.generar = true;
+    $scope.ver = false;
+    $scope.label_seudo = false;
 
     var keys;
     var seudo_Kpub;
     $scope.cif = "";
     $scope.direccion = "";
     $scope.email = "";
-    $scope.telf = ""
+    $scope.telf = "";
     $("#seudo").hide();
 
 
@@ -63,7 +66,25 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
     $scope.generar = function () {
         $scope.claves = false;
-        keys = rsaKey.generateKeys(1024);
+        keys = rsaKey.generateKeys(128);
+
+        $scope.claves = true;
+        $scope.label_seudo = true;
+        $scope.generar = false;
+        $scope.ver = true;
+        $scope.prep = true;
+        $( "#ver" ).trigger( "click" );
+
+        $scope.public = {
+          n: keys.publicKey.n.toString(),
+          e: keys.publicKey.e.toString()
+        };
+        $scope.private = {
+          d: keys.privateKey.d.toString()
+        };
+    };
+
+    $scope.guardar_keys = function () {
 
         var keysToFile = {
             publicKey: {
@@ -93,10 +114,17 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
         file = window.URL.createObjectURL(data);
         downloadURI(file, "keys.RSA");
-        $scope.claves = true;
 
     };
 
+    $scope.preparar = function (seudonimo) {
+      $scope.seudo_Kpub = {
+        seudonimo: seudonimo,
+        n: keys.publicKey.n.toString(),
+        e: keys.publicKey.e.toString()
+        };
+
+    };
 
     $scope.enviar = function (seudonimo) {
 
