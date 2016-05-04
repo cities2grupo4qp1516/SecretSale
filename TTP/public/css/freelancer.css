@@ -3,7 +3,50 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+ article {
+   width: 500px;
+   margin: 40px auto;
+   position: relative;
+   overflow: hidden;
+   padding: 5rem 5rem;
+ }
+ .read-article:before {
+   content:'';
+   position: absolute;
+   left:0px;top:0px;
+   width: 0px;
+   height:0px;
+   border-top: 40px solid transparent;
+   border-right: 40px solid #B58846;
+   box-shadow: -100px 0 0 5000rem #E2CDAE;
+   transition: .5s;
+ }
+ .read-article:hover:before {
+   border-top: 60px solid transparent;
+   border-right: 60px solid  #B58846;
+ }
 
+ article > table {
+   padding: 20px;
+   position: relative;
+   z-index: 2;
+ }
+
+ article:after {
+   content: '';
+   background: transparent;
+   width: 40px;
+   height: 60px;
+   position: absolute;
+   right:-16px;
+   top:-22px;
+   transform: rotate(-45deg);
+   opacity:0;
+ }
+td {
+  border: 1px solid black !important;
+
+}
 body {
     overflow-x: hidden;
 }

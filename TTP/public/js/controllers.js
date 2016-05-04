@@ -5,7 +5,7 @@ secretSale.constant('config', {
     URLTTP: "http://localhost:5000/"
 });
 
-secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http, config, BigInteger, rsaKey, $state, Base64) {
+secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http, config, BigInteger, rsaKey, $state, Base64, $timeout) {
     function downloadURI(uri, name) {
         var link = document.createElement("a");
         link.download = name;
@@ -13,14 +13,27 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
         link.click();
     }
 
+
     $scope.claves = false;
     $scope.prep = false;
     $scope.generar = true;
     $scope.ver = false;
     $scope.label_seudo = false;
+    $scope.hash = false;
+    $scope.firma_ceg = false;
+    $scope.send = false;
+    $scope.des = false;
+    $scope.ceg = false;
+    $scope.veri = false;
+    $scope.pergamino = true;
+    $scope.pergamino2 = false;
+    $scope.teta_server = false;
+    $scope.rmenos1 = false;
+    $scope.ver_hash = false;
+    $scope.save = false;
 
-    var keys;
-    var seudo_Kpub;
+
+    var keys, seudo_Kpub, teta, r, n, e, c, myHash;
     $scope.cif = "";
     $scope.direccion = "";
     $scope.email = "";
@@ -118,6 +131,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
     };
 
     $scope.preparar = function (seudonimo) {
+      seudo_Kpub = seudonimo + ", " + keys.publicKey.e.toString() + "," + keys.publicKey.n.toString();
       $scope.seudo_Kpub = {
         seudonimo: seudonimo,
         n: keys.publicKey.n.toString(),
@@ -126,50 +140,53 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
     };
 
-    $scope.enviar = function (seudonimo) {
+    $scope.hashear = function () {
+      $scope.pergamino = false;
+      $scope.hash = true;
+      $scope.ceg = true;
+
+      myHash = sha256($scope.seudo_Kpub.seudonimo + "," + $scope.seudo_Kpub.n + "," + $scope.seudo_Kpub.e);
+      $scope.digest = myHash;
+    };
+
+    $scope.cegar = function () {
+      $scope.firma_ceg = true;
+      $scope.send = true;
+      $scope.ceg = false;
+
+      var hash = {
+          hash: $scope.digest
+      };
+
+      console.log("HASH: " + $scope.digest);
+      var diff = Decimal.sub(Decimal.pow(2, publickey.bits), Decimal.pow(2, publickey.bits - 1));
+      var randomNumber = Decimal.add((Decimal.mul(Decimal.random(300), Decimal.pow(2, publickey.bits)).round()), diff);
+       r = new BigInteger(randomNumber.toString());
+
+      console.log("R: " + r);
+
+      var m = new BigInteger(hash.hash, 16);
+       e = new BigInteger(publickey.e);
+       n = new BigInteger(publickey.n);
+      var bc = m.multiply(r.modPow(e, n)).mod(n);
+
+      $scope.blindMsg = {
+          blind: bc.toString(10)
+      };
+      console.log('blind msg   m·r^e mod n:', '\n', $scope.blindMsg.blind.toString(10), '\n');
 
 
-        seudo_Kpub = seudonimo + "," + keys.publicKey.n.toString() + "," + keys.publicKey.e.toString();
-        var seudo_Kpub_64 = Base64.encode(seudo_Kpub);
-        console.log(seudo_Kpub_64);
 
-        var digest = sha256(seudo_Kpub);
-        var hash = {
-            hash: digest
-        };
+    };
 
-        console.log("HASH: " + digest);
-        var diff = Decimal.sub(Decimal.pow(2, publickey.bits), Decimal.pow(2, publickey.bits - 1));
-        var randomNumber = Decimal.add((Decimal.mul(Decimal.random(300), Decimal.pow(2, publickey.bits)).round()), diff);
-        var r = new BigInteger(randomNumber.toString());
+    $scope.enviar = function () {
 
-        console.log("R: " + r);
-
-        var m = new BigInteger(hash.hash, 16);
-        var e = new BigInteger(publickey.e);
-        var n = new BigInteger(publickey.n);
-        var bc = m.multiply(r.modPow(e, n)).mod(n);
-
-        var blindMsg = {
-            blind: bc.toString(10)
-        };
-        console.log('blind msg   m·r^e mod n:', '\n', blindMsg.blind.toString(10), '\n');
-
-        $http.post(config.URLTTP + 'firma_ciega', JSON.stringify(blindMsg))
+        $http.post(config.URLTTP + 'firma_ciega', JSON.stringify($scope.blindMsg))
             .success(function (data) {
 
-                var teta = new BigInteger(data.teta);
-                var c = teta.multiply(r.modInverse(n)).mod(n);
-                $scope.c = c.toString();
-                var publicKeyTTP = new rsaKey.publicKey(publickey.bits, n, e);
+                teta = new BigInteger(data.teta);
+               $scope.teta = teta.toString(10);
 
-                console.log("Firma TTP: " + c);
-
-                var d = publicKeyTTP.decrypt(c);
-
-                console.log("Desencriptado Firma: " + d.toString(16));
-
-                $scope.sign = true;
 
             })
             .error(function (dataa) {
@@ -177,22 +194,60 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
             });
 
+            $scope.send = false;
+            $scope.ceg = false;
+            $scope.des = true;
+            $scope.teta_server = true;
     };
 
-    $scope.guardar = function (c) {
+    $scope.descegar = function () {
+      $scope.rmenos1 = true;
+      $scope.teta_server = false;
+      $scope.firma_ceg = false;
+      $scope.des = false;
+      $scope.veri = true;
+       c = teta.multiply(r.modInverse(n)).mod(n);
+      $scope.c = c.toString();
+
+    };
+
+    $scope.verificar = function () {
+        var publicKeyTTP = new rsaKey.publicKey(publickey.bits, n, e);
+        var d = publicKeyTTP.decrypt(c);
+        $scope.d = d.toString(16);
+
+        if(myHash == d.toString(16) ){
+
+          $("#digest").css("color","#0C9700");
+          $("#digest_ver").css("color","#0C9700");
+
+        }else {
+          $("#digest").css("color","#D8270F");
+          $("#digest_ver").css("color","#D8270F");
+        }
+        $scope.rmenos1 = false;
+        $scope.ver_hash = true;
+
+    /*    setTimeout(function () {
+            $scope.ver_hash = false;
+            console.log("Hoooooola");
+        }, 1000);*/
+
+        $timeout(function() {
+
+        $scope.ver_hash = false;
+        $scope.hash = false;
+        $scope.veri = false;
+        $scope.pergamino2 = true;
+        $scope.save = true;
+    }, 5000);
+
+
+    };
+
+    $scope.guardar = function () {
 
         var seudo_Kpub_sign = seudo_Kpub + "," + c;
-        var a = Base64.encode(seudo_Kpub_sign);
-        var b = Base64.decode(a);
-        console.log("Base64: " + a);
-        console.log("DesBase64: " + b);
-        var g = new Array();
-        g = b.split(',');
-
-        for (var i = 0; i < g.length; i++) {
-            console.log(g[i] + " -- ");
-
-        };
 
         var file = "";
         var data = new Blob([Base64.encode(seudo_Kpub_sign)], {
@@ -205,6 +260,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
         file = window.URL.createObjectURL(data);
         downloadURI(file, "PID_firmado.RSA");
+      
 
     };
 

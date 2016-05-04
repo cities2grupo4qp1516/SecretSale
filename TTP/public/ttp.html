@@ -138,7 +138,6 @@
           <div class="col-lg-12 text-center">
             <h2>Escribe tu pseudónimo</h2>
             <hr class="star-primary">
-            <h4>Debes primero generar las claves para poder firmar tú pseudónimo</h4>
             <br>
           </div>
         </div>
@@ -161,7 +160,6 @@
                   <button type="submit" class="btn btn-success btn-lg" ng-click = "generar()" ng-show = "generar">Generar claves</button>
                   <a href="#portfolioModal1" id="ver" class="btn btn-success btn-lg portfolio-link" data-toggle="modal" type="submit" ng-click = "ver_claves()" ng-show = "ver">Ver claves</a>
                   <a href="#portfolioModal2" class="btn btn-success btn-lg portfolio-link" data-toggle="modal" type="submit" ng-click = "preparar(seudonimo)" ng-show = "prep">Preparar para firmar</a>
-                  <a href="#portfolioModal6" class="btn btn-success btn-lg portfolio-link" data-toggle="modal" type="submit" ng-click = "enviar(seudonimo)" ng-show = "claves">Enviar para firmar</a>
                 </div>
               </div>
             </form>
@@ -186,7 +184,6 @@
               <div class="modal-body">
                 <h2>Claves</h2>
                 <hr class="star-primary">
-                <img src="img/portfolio/safe.png" class="img-responsive img-centered" alt="">
                 <h3>Clave pública</h3>
                 <hr class="star-primary">
                 <h4>e</h4>
@@ -199,6 +196,7 @@
                 <hr class="star-primary">
                 <h4>n</h4>
                 <p style="word-wrap: break-word;">{{public.n}}</p>
+                <br>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click = "guardar_keys()"><i class="fa fa-diamond"></i> Guardar</button>
               </div>
             </div>
@@ -222,9 +220,7 @@
               <div class="modal-body">
                 <h2>Firma TTP</h2>
                 <hr class="star-primary">
-                <img src="img/portfolio/circus.png" class="img-responsive img-centered" alt="">
-
-                  <table style="word-wrap: break-word; width: 100%; table-layout: fixed;" border="1">
+                <!--  <table style="word-wrap: break-word; width: 100%; table-layout: fixed;" border="1" cellspacing=0 cellpadding=2>
                     <tr>
                       <td><h4>Pseudónimo</h4></td>
                       <td>{{seudo_Kpub.seudonimo}}</td>
@@ -237,46 +233,91 @@
                     <tr>
                       <td></td>
                       <td><h4>n</h4></td>
-                      <td>{{seudo_Kpub.n}}</td>
+                      <td style="padding: 10px">{{seudo_Kpub.n}}</td>
                     </tr>
 
-                  </table>
-
-                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click = "guardar_keys()"><i class="fa fa-diamond"></i> Guardar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-      <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-          <div class="close-modal" data-dismiss="modal">
-            <div class="lr">
-              <div class="rl">
-              </div>
-            </div>
-          </div>
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-8 col-lg-offset-2">
-                <div class="modal-body">
-                  <h2>Firma TTP</h2>
+                  </table>-->
+                  <div ng-show="hash">
+                  <h3>Hash</h3>
                   <hr class="star-primary">
-                  <img src="img/portfolio/cake.png" class="img-responsive img-centered" alt="">
-                  <p style="word-wrap: break-word;">{{c}}</p>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click = "guardar(c)"><i class="fa fa-diamond"></i> Guardar</button>
+                  <p style="word-wrap: break-word;" id="digest">{{digest}}</p>
+                </div>
+                <div ng-show="firma_ceg">
+                <h3>Pseudonimo + Clave pública cegados</h3>
+                <hr class="star-primary">
+                <p style="word-wrap: break-word;">{{blindMsg.blind}}</p>
+              </div>
+              <div ng-show="teta_server">
+              <h3>Firma cegada</h3>
+              <hr class="star-primary">
+              <p style="word-wrap: break-word;">{{teta}}</p>
+            </div>
+            <div ng-show="rmenos1">
+            <h3>Firma válida</h3>
+            <hr class="star-primary">
+            <p style="word-wrap: break-word;">{{c}}</p>
+          </div>
+          <div ng-show="ver_hash" >
+          <h3>Hash de la firma</h3>
+          <hr class="star-primary">
+          <p style="word-wrap: break-word;" id="digest_ver">{{d}}</p>
+        </div>
+                  <article ng-show="pergamino">
+                    <table style="word-wrap: break-word; width: 100%; table-layout: fixed;" border="1" cellspacing=0 cellpadding=2>
+                       <tr>
+                         <td><h4>PID</h4></td>
+                         <td>{{seudo_Kpub.seudonimo}}</td>
+                       </tr>
+                       <tr>
+                        <!-- <td><h4>Clave pública</h4></td>-->
+                         <td><h4>e</h4></td>
+                         <td>{{seudo_Kpub.e}}</td>
+                       </tr>
+                       <tr>
+
+                         <td><h4>n</h4></td>
+                         <td style="padding: 10px">{{seudo_Kpub.n}}</td>
+                       </tr>
+                     </table>
+                    <dobladillo class="read-article"></dobladillo>
+                  </article>
+                  <article ng-show="pergamino2">
+                    <table style="word-wrap: break-word; width: 100%; table-layout: fixed;" border="1" cellspacing=0 cellpadding=2>
+                       <tr>
+                         <td><h4>PID</h4></td>
+                         <td>{{seudo_Kpub.seudonimo}}</td>
+                       </tr>
+                       <tr>
+                       <!--<td><h4>Clave pública</h4></td>-->
+                         <td><h4>e</h4></td>
+                         <td>{{seudo_Kpub.e}}</td>
+                       </tr>
+                       <tr>
+
+                         <td><h4>n</h4></td>
+                         <td style="padding: 10px">{{seudo_Kpub.n}}</td>
+                       </tr>
+                       <tr>
+                         <td><h4>Firma TTP</h4></td>
+
+                         <td style="padding: 10px">{{c}}</td>
+                       </tr>
+                     </table>
+                    <dobladillo class="read-article"></dobladillo>
+                  </article>
+                  <br>
+                  <button type="button" class="btn btn-danger"  ng-click = "hashear()" ng-show="pergamino"><i class="fa fa-diamond"></i> Hash</button>
+                  <button type="button" class="btn btn-info"  ng-click = "cegar()" ng-show="ceg"><i class="fa fa-diamond"></i> Cegar</button>
+                  <button type="button" class="btn btn-success"  ng-click = "enviar()" ng-show="send"><i class="fa fa-diamond"></i> Enviar</button>
+                  <button type="button" class="btn btn-warning"  ng-click = "descegar()" ng-show="des"><i class="fa fa-diamond"></i> Descegar</button>
+                  <button type="button" class="btn btn-success"  ng-click = "verificar()" ng-show="veri"><i class="fa fa-diamond"></i> Verificar</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click = "guardar()" ng-show="save"><i class="fa fa-diamond"></i> Guardar</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
 
 
     </div>
