@@ -220,12 +220,12 @@ secretSale.controller("clienteController", function ($scope, $http, config, Swee
     $scope.registrarUsuario = function () {
         console.log("Estoy dentro");
         var fd = new FormData();
+        var passhash =
 
-
-        fd.append('nick', $scope.cliente.nick);
+            fd.append('nick', $scope.cliente.nick);
         fd.append('nombre', $scope.cliente.nombre);
         fd.append('apellidos', $scope.cliente.apellidos);
-        fd.append('password', $scope.cliente.password);
+        fd.append('password', passhash);
         fd.append('mail', $scope.cliente.mail);
         fd.append('edad', $scope.cliente.edad);
         fd.append('pais', paisfinal);
