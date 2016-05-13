@@ -313,6 +313,22 @@
                                     <dobladillo class="read-article"></dobladillo>
                                 </article>
                                 <br>
+                                <form id="contactForm" ng-show="rc4_pass" novalidate>
+                                    <div class="row control-group" ng-show="label_seudo">
+                                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                                            <label>Contraseña</label>
+                                            <input type="password" class="form-control" placeholder="Escribe una contraseña para cifrar tu clave privada con RC4" ng-model="pass_rc4" required data-validation-required-message="Porfavor introduce tu Pseudónimo">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div id="success"></div>
+                                    <div class="row">
+                                        <div class="form-group col-xs-12">
+                                            <button type="submit" class="btn btn-success btn-lg" ng-click="save_pass_rc4(pass_rc4)" >Guardar contraseña</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <button type="button" class="btn btn-danger" ng-click="hashear()" ng-show="pergamino"><i class="fa fa-diamond"></i> Hash</button>
                                 <button type="button" class="btn btn-info" ng-click="cegar()" ng-show="ceg"><i class="fa fa-diamond"></i> Cegar</button>
                                 <button type="button" class="btn btn-success" ng-click="enviar()" ng-show="send"><i class="fa fa-diamond"></i> Enviar</button>
@@ -320,7 +336,7 @@
                                 <button type="button" class="btn btn-success" ng-click="verificar()" ng-show="veri"><i class="fa fa-diamond"></i> Verificar</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="guardar()" ng-show="save"><i class="fa fa-diamond"></i> Guardar</button>
                             </div>
-                        </div>
+                          </div>
                     </div>
                 </div>
             </div>
