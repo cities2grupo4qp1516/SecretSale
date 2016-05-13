@@ -97,8 +97,8 @@ secretSale.controller("vendedorController", function ($scope, $http, config, Bas
     }
     $scope.pass = function () {
         var venendro = {
-            nombre: certificado.seudonimo,
-            pass: $scope.passw
+            nick: certificado.seudonimo,
+            password: sha256($scope.passw)
         }
         $http.post(config.URLSSS + "users/regi/", venendro).success(function (data) {
             SweetAlert.swal({
@@ -220,9 +220,8 @@ secretSale.controller("clienteController", function ($scope, $http, config, Swee
     $scope.registrarUsuario = function () {
         console.log("Estoy dentro");
         var fd = new FormData();
-        var passhash =
-
-            fd.append('nick', $scope.cliente.nick);
+        var passhash = sha256($scope.cliente.password);
+        fd.append('nick', $scope.cliente.nick);
         fd.append('nombre', $scope.cliente.nombre);
         fd.append('apellidos', $scope.cliente.apellidos);
         fd.append('password', passhash);

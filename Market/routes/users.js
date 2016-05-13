@@ -6,6 +6,7 @@ var bignum = require('bignum');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var usuario = require('../models/Usuarios.js');
+var vendedor = require('../models/Vendedor.js')
 var router = express.Router();
 var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes_usuario/';
 var crypto = require('crypto');
@@ -117,7 +118,20 @@ router.post('/nounce', function (req, res, next) {
 
 router.post('/regi', function (req, res, next) {
     console.log(req.body);
-    res.send("OK");
+    var vendedorNew = new vendedor({
+        nick: req.body.nick,
+        password: req.body.password
+    });
+
+    vendedorNew.save(function (err) {
+        if (err) {
+            console.log("\x1b[31m", "Error: " + err + " al intentar guardar el vendedor \n");
+            res.status(500).send("Se ha producido un error: " + err);
+        } else {
+            console.log("\x1b[33m", "Info: Todo ha ido bien \n");
+            res.status(200).send("Se ha guardado el vendedor correctamente");
+        }
+    });
 });
 
 /* GET All Users */

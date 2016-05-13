@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var objetos = require('./routes/objetos');
+var objetos = require('./routes/Objetos');
 
 var app = express();
 
