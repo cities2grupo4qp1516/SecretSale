@@ -1,5 +1,5 @@
 secretSale.constant('config', {
-    URLSSS: "http://localhost:3000/",
+    URLSSS: "https://localhost:3000/",
     URLTTP: "https://localhost:5000/"
 });
 
