@@ -1,6 +1,6 @@
 secretSale.constant('config', {
     URLSSS: "http://localhost:3000/",
-    URLTTP: "http://localhost:5000/"
+    URLTTP: "https://localhost:5000/"
 });
 
 secretSale.controller("listaObjetos", function ($scope, $http, config) {
@@ -23,18 +23,96 @@ secretSale.controller("listaObjetos", function ($scope, $http, config) {
 
 });
 
-secretSale.controller("vendedorController", function ($scope, $http, config, Base64) {
+secretSale.controller("vendedorController", function ($scope, $http, config, Base64, rsaKey, BigInteger, SweetAlert) {
+    var certificado = {},
+        keys;
+    $scope.si = false;
+    $scope.form1 = true;
+    $scope.form2 = false;
 
+    $scope.aa = true;
+    $scope.bb = false;
+    $scope.lol = function () {
+        $scope.aa = false;
+        $scope.bb = true;
+    }
+    $scope.sujeto = "desconocido";
     jQuery("input#imgInp").change(function () {
         var files = document.getElementById('imgInp').files;
         var reader = new FileReader();
         reader.readAsText(files[0]);
 
         reader.onloadend = function () {
-            var fileKeys = Base64.decode(reader.result);
-            console.log(fileKeys);
+            var fileKeys = JSON.parse(Base64.decode(reader.result));
+            console.log(rc4("1234", Base64.decode(fileKeys.d)));
+            var estaPutaMierdaMeEstaSacandoDeMisCasillas = rc4("1234", Base64.decode(fileKeys.d));
+            certificado = {
+                e: fileKeys.e,
+                firma: fileKeys.firma,
+                n: fileKeys.n,
+                seudonimo: fileKeys.seudonimo
+            }
+
+            keys = rsaKey.importKeys({
+                privateKey: {
+                    publicKey: {
+                        e: fileKeys.e,
+                        n: fileKeys.n
+                    },
+                    p: estaPutaMierdaMeEstaSacandoDeMisCasillas,
+                    q: estaPutaMierdaMeEstaSacandoDeMisCasillas,
+                    d: estaPutaMierdaMeEstaSacandoDeMisCasillas
+                },
+                publicKey: {
+                    bits: 1024,
+                    n: fileKeys.n,
+                    e: fileKeys.e
+                }
+            })
+            console.log(keys);
         };
+        $scope.$apply(function () {
+            $scope.si = true;
+        });
     });
+
+    $scope.subirObjeto = function () {
+        $http.post(config.URLSSS + "users/vendedor/", certificado).success(function (data) {
+            console.log(keys.privateKey.decrypt(new BigInteger(data)).toString());
+            var aCamachoNoSeLeMientePeroAFritoDaIgual = {
+                nounce: keys.privateKey.decrypt(new BigInteger(data)).toString(),
+                seudo: certificado.seudonimo
+            }
+            $http.post(config.URLSSS + "users/nounce/", aCamachoNoSeLeMientePeroAFritoDaIgual).success(function (data) {
+                console.log(data);
+                $scope.form1 = false;
+                $scope.form2 = true;
+                $scope.sujeto = certificado.seudonimo;
+            }).error(function (data) {
+                console.log(data);
+            });
+        }).error(function (data) {
+            console.log(data);
+        });
+    }
+    $scope.pass = function () {
+        var venendro = {
+            nombre: certificado.seudonimo,
+            pass: $scope.passw
+        }
+        $http.post(config.URLSSS + "users/regi/", venendro).success(function (data) {
+            SweetAlert.swal({
+                    title: "Registro completado con éxito!",
+                    type: "success",
+                    confirmButtonText: "Continuar",
+                },
+                function () {
+                    console.log("weee");
+                });
+        }).error(function (data) {
+            console.log(data);
+        });
+    }
 
 });
 

@@ -6,6 +6,7 @@ var router = express.Router();
 
 var keys = rsa.generateKeys(1024, function (keys) {
     console.log("Keys are ready!");
+    console.log(keys);
 });
 
 /* GET home page. */

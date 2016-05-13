@@ -4,17 +4,70 @@
             <h2 class="sidebar-title">Accede como vendedor anonimo!</h2>
         </div>
         <div class="body">
-            <form enctype='multipart/form-data' name="Form">
+            <form enctype='multipart/form-data' name="Form" ng-show="form1">
                 <h2 class="sidebar-title" style="margin-left:15px;">Danos tu pseudonimo Firmado:</h2>
                 <div class="eye">
                     <input type='file' class="RSA custom-file-input" id="imgInp" accept=".RSA" />
                 </div>
-                <div class=" enviar ">
+                <div class="enviar" ng-show="si">
                     <button class="buto " type="submit " ng-click="subirObjeto() ">Enviar</button>
+                </div>
+            </form>
+
+            <form enctype='multipart/form-data' name="Form2" ng-show="form2">
+                <h2 class="sidebar-title" style="margin-left:15px;">Hola <j style="color: saddlebrown;">{{sujeto}}</j>, pon una contraseña:</h2>
+                <input type='password' class="RSA" ng-model="passw" />
+                <h5 class="sidebar-title" style="margin-left:15px; font-size: 12px; cursor:pointer" ng-show="aa" ng-click="lol()">Necesito ponerla dos veces!</h5>
+                <h5 class="sidebar-title" style="margin-left:15px; font-size: 12px;" ng-show="bb">Pues te jorobas!</h5>
+                <br>
+                <div class="enviar" ng-show="si">
+                    <button class="buto" type="submit " ng-click="pass() ">Enviar</button>
                 </div>
             </form>
         </div>
     </div>
     <script>
+        function rc4(key, str) {
+            var s = [],
+                j = 0,
+                a, res = '';
+            for (var i = 0; i <= 255; i++) {
+                s[i] = i;
+            }
+            /*
+                j=0;
+                for i = 0 to 255
+                {
+                   j = (j+S[i] + K[i]) mod 256;
+                   intercambia S[i] and S[j];
+                }   
+            */
+            for (i = 0; i <= 255; i++) {
+                j = (j + s[i] + key.charCodeAt(i % key.length)) % 256;
+                a = s[i];
+                s[i] = s[j];
+                s[j] = a;
+            }
+
+            /*
+            i = (i + 1) mod 256;
+            j = (j + S[i]) mod 256;
+            intercambia S[i] and S[j];
+            t = (S[i] + S[j]) mod 256;
+            Exponer valor de S[t];
+            */
+            i = 0;
+            j = 0;
+            for (var b = 0; b < str.length; b++) {
+                i = (i + 1) % 256;
+                j = (j + s[i]) % 256;
+                a = s[i];
+                s[i] = s[j];
+                s[j] = a;
+                res += String.fromCharCode(str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]);
+                //res += (str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]).toString();
+            }
+            return res;
+        }
     </script>
 </div>
