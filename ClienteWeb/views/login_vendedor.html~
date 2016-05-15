@@ -1,0 +1,44 @@
+<div class="single-sidebar" ng-controller="vendedorController" ng-init="focus=false;active=false">
+<H1 align="center"> Secret Sell </H1>
+<img src="imagenes/logo.png" alt="W3C_validator" width="150" height="60" class="imgcenter">
+    <div style="margin-top: 7%;" class="wrapper">
+     
+        <div class="body">
+            <form enctype='multipart/form-data' name="Form">
+                <input type="text" id="user" placeholder="Pseudonimo" ng-model="nick">
+		<p style= "margin-left: 3%;color:red" ng-show=n>*Se requiere Pseudonimo</p>
+	
+                <input type="password" id="pass" placeholder="Password" ng-model="passw" >
+		<p style= "margin-left: 3%;color:red" ng-show=p>*Se requiere Password</p>
+
+               <div class="enviar">
+                    <button style="border-radius: 9px;border:3px solid #A9A9A9;" class="buto" type="submit" ng-click="login()">Login</		button>
+               	</div>
+                <span ng-if="display(nick,passw)">
+    		</span>
+            </form>
+		
+        </div>
+    		
+    </div>
+
+</div>
+
+<style type="text/css">
+IMG.imgcenter{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border:none;
+      }
+input#pass {
+    background-image: url(imagenes/lock.png);
+    background-repeat: no-repeat;
+    text-indent: 20px;
+}
+input#user {
+    background-image: url(imagenes/user.png);
+    background-repeat: no-repeat;
+    text-indent: 20px;
+}
+</style>

@@ -29,6 +29,9 @@ secretSale.controller("vendedorController", function ($scope, $http, config, Bas
     $scope.si = false;
     $scope.form1 = true;
     $scope.form2 = false;
+	$scope.u = false;
+	$scope.p = false;
+ 
 
     $scope.aa = true;
     $scope.bb = false;
@@ -113,6 +116,83 @@ secretSale.controller("vendedorController", function ($scope, $http, config, Bas
             console.log(data);
         });
     }
+
+	$scope.display = function (n,p) {
+
+   
+
+      if (n>0) {
+	$scope.n = false;
+      }
+      if (p> 0){
+	  $scope.p = false;
+      }
+
+
+    };
+
+  $scope.login = function () {
+	  $scope.n = false;
+	  $scope.p = false;
+ 	if ((!$scope.nick) && (!$scope.passw)){
+          $scope.n = true;
+	  $scope.p = true;
+
+        }
+        else if (!$scope.nick){
+         
+$scope.n = true;
+        }
+
+        else if (!$scope.passw){
+             $scope.p = true;
+
+        }
+	else{
+        var venendro = {
+            nick: $scope.nick,
+            password: sha256($scope.passw)
+        }
+        $http.post(config.URLSSS + "users/login/", venendro).success(function (data) {
+		/*En data se puede ver el token*/
+               	console.log(data);
+		 SweetAlert.swal({
+                    title: "Login completado con éxito!",
+                    type: "success",
+                    confirmButtonText: "Continuar",
+                },
+                function () {
+                    console.log("weee");
+                });
+         
+		/*En esta parte pongo de ejemplo como añadir en la cabecera de la peticion la autenticacion con token */
+			$http({	method: 'GET', url: config.URLSSS + "users/prueba/",headers: {'Authorization': 'Bearer ' + data.token}}).success(function (data) {
+
+	console.log (data);
+ }).error(function (data) {
+            console.log(data);
+ 	 
+	   
+
+        });
+
+		
+		
+        }).error(function (data) {
+            console.log(data);
+ 	 
+	     SweetAlert.swal({
+                    title: data,
+                    type: "error",
+                    confirmButtonText: "Continuar",
+                },
+                function () {
+                    console.log("weee");
+                });
+
+        });
+    }
+}
 
 });
 
