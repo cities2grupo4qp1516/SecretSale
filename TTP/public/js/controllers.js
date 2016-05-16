@@ -13,7 +13,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
         link.click();
     }
 
-    var keys, seudo_Kpub, teta, r, n, e, c, myHash, publickey = {
+    var keys, seudo_Kpub, teta, r, n, e, c, myHash, pass_rc4, publickey = {
         bits: "",
         n: "",
         e: ""
@@ -35,10 +35,12 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
     $scope.rmenos1 = false;
     $scope.ver_hash = false;
     $scope.save = false;
+    $scope.rc4_pass = false;
     $scope.cif = "";
     $scope.direccion = "";
     $scope.email = "";
     $scope.telf = "";
+
 
     $("#seudo").hide();
 
@@ -206,18 +208,23 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
         $scope.rmenos1 = false;
         $scope.ver_hash = true;
 
-        /*    setTimeout(function () {
-                $scope.ver_hash = false;
-                console.log("Hoooooola");
-            }, 1000);*/
+        $scope.rc4_pass = true;
+        $scope.veri = false;
 
-        $timeout(function () {
-            $scope.ver_hash = false;
-            $scope.hash = false;
-            $scope.veri = false;
-            $scope.pergamino2 = true;
-            $scope.save = true;
-        }, 5000);
+      /*  $timeout(function () {
+
+      }, 5000);*/
+    };
+
+
+    $scope.save_pass_rc4 = function (rc4_que_me_envia_el_html) {
+      $scope.ver_hash = false;
+      $scope.hash = false;
+      $scope.veri = false;
+      $scope.pergamino2 = true;
+      $scope.save = true;
+      $scope.rc4_pass = false;
+      pass_rc4 = rc4_que_me_envia_el_html;
     };
 
     $scope.guardar = function () {
@@ -230,8 +237,9 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
             e: temp[1],
             n: temp[2],
             firma: temp[3],
-            d: Base64.encode(rc4("1234", keys.privateKey.d.toString()))
+            d: Base64.encode(rc4(pass_rc4, keys.privateKey.d.toString()))
         }
+        console.log(rc4(pass_rc4, keys.privateKey.d.toString()));
         console.log(certificadoFinal);
         var file = "";
         var data = new Blob([Base64.encode(JSON.stringify(certificadoFinal))], {
