@@ -260,7 +260,7 @@ secretSale.controller("RegVendedorController", function ($scope, UtilSrvc, $http
 
         file = window.URL.createObjectURL(data);
         downloadURI(file, "PID_firmado.RSA");
-      
+
 
     };
 
