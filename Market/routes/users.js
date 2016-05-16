@@ -1,11 +1,124 @@
 var express = require('express');
 var fs = require('fs');
+var http = require('https');
 var fse = require('fs-extra');
+var bignum = require('bignum');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
-var usuario = require('../models/usuarios.js');
+var usuario = require('../models/Usuarios.js');
 var router = express.Router();
 var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes_usuario/';
+var crypto = require('crypto');
+
+var rsa = require('../rsa/rsa-bignum');
+
+var camachoSabeSiLeMientesPeroLaVerdadEsQueLeDaIgual = [];
+
+var TTPKeys;
+
+function getTestPersonaLoginCredentials(callback) {
+
+    return http.get({
+        host: 'localhost',
+        port: 5000,
+        path: '/firma_ciega/publicKey',
+        rejectUnauthorized: false
+    }, function (response) {
+        var body = '';
+        response.on('data', function (d) {
+            body += d;
+        });
+        response.on('end', function () {
+            callback(body);
+        });
+    });
+
+};
+getTestPersonaLoginCredentials(function (a) {
+    console.log(JSON.parse(a));
+    a = JSON.parse(a);
+    TTPKeys = rsa.importKeys({
+        privateKey: {
+            publicKey: {
+                e: a.e,
+                n: a.n
+            },
+            p: a.e,
+            q: a.e,
+            d: a.e
+        },
+        publicKey: {
+            bits: a.bits,
+            n: a.n,
+            e: a.e
+        }
+    });
+})
+
+
+router.post('/vendedor', function (req, res, next) {
+    console.log(req.body);
+    var e = req.body.e;
+    var keys = rsa.importKeys({
+        privateKey: {
+            publicKey: {
+                e: e,
+                n: req.body.n
+            },
+            p: e,
+            q: e,
+            d: e
+        },
+        publicKey: {
+            bits: 1024,
+            n: req.body.n,
+            e: e
+        }
+    });
+
+    function abc(array) {
+        var result = "";
+        for (var i = 0; i < array.length; i++) {
+            result += String.fromCharCode(array[i]);
+        }
+        return result;
+    }
+
+    var meLaSuda = Math.floor((Math.random() * 10000000000000000) + 1);
+    console.log("***********************************");
+    var firmades = TTPKeys.publicKey.decrypt(bignum(req.body.firma));
+    console.log(firmades.toString(16));
+    var caca = crypto.createHash("sha256").update(req.body.seudonimo + "," + req.body.n + "," + req.body.e).digest("hex");
+    console.log(caca);
+
+    if (caca != firmades.toString(16)) {
+        console.log("caca");
+        res.sendStatus(500).send("falso");
+    } else {
+        //sha256($scope.seudo_Kpub.seudonimo + "," + $scope.seudo_Kpub.n + "," + $scope.seudo_Kpub.e);
+        //return crypto.createHash('sha256').update('ThisPassword').digest('base64')
+        console.log("novcaca");
+
+        var n = keys.publicKey.encrypt(bignum(meLaSuda));
+
+        camachoSabeSiLeMientesPeroLaVerdadEsQueLeDaIgual[req.body.seudonimo] = meLaSuda;
+        res.send(n.toString());
+    }
+});
+
+
+router.post('/nounce', function (req, res, next) {
+    console.log(req.body);
+    if (camachoSabeSiLeMientesPeroLaVerdadEsQueLeDaIgual[req.body.seudo] == req.body.nounce)
+        res.send("A camacho le gusta esto");
+    else
+        res.sendStatus(500).send("Estas Frito");
+});
+
+router.post('/regi', function (req, res, next) {
+    console.log(req.body);
+    res.send("OK");
+});
 
 /* GET All Users */
 router.get('/usuarios', function (req, res, next) {

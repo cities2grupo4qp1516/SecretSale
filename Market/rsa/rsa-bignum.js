@@ -12,6 +12,14 @@ rsa = {
         this.d = d;
         this.publicKey = publicKey;
     },
+    importKeys: function (impotedKeys) {
+        var keys = {};
+        impotedKeys.privateKey.publicKey.e = bignum(impotedKeys.privateKey.publicKey.e);
+        impotedKeys.privateKey.publicKey.n = bignum(impotedKeys.privateKey.publicKey.n);
+        keys.publicKey = new rsa.publicKey(impotedKeys.publicKey.bits, bignum(impotedKeys.publicKey.n), bignum(impotedKeys.publicKey.e));
+        keys.privateKey = new rsa.privateKey(bignum(impotedKeys.privateKey.p), bignum(impotedKeys.privateKey.q), bignum(impotedKeys.privateKey.d), impotedKeys.privateKey.publicKey);
+        return keys;
+    },
     generateKeys: function (bitlength, callback) {
         var p, q, n, phi, e, d, keys = {};
         // if p and q are bitlength/2 long, n is then bitlength long

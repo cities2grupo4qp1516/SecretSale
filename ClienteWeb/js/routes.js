@@ -36,7 +36,10 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
 
         }).state('/reg_vendedor', {
             url: "/reg_vendedor",
-            templateUrl: "views/reg_vendedor.html"
+            templateUrl: "views/reg_vendedor.html",
+            data: {
+                css: ['views/css/objetos.css']
+            }
 
         }).state('/objetos', {
             url: "/objetos",
