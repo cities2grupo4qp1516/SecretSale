@@ -263,15 +263,15 @@ body {
 }
 
 .slide-one {
-    background-image: url(img/slide-1.jpg)
+    background-image: url(../img/a.png)
 }
 
 .slide-two {
-    background-image: url(img/slide-2.jpg)
+    background-image: url(../img/b.png)
 }
 
 .slide-three {
-    background-image: url(img/slide-3.jpg)
+    background-image: url(../img/c.jpg)
 }
 
 .slide-text {

@@ -6,9 +6,13 @@ var bignum = require('bignum');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var usuario = require('../models/Usuarios.js');
+var vendedor = require('../models/Vendedor.js')
 var router = express.Router();
 var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes_usuario/';
 var crypto = require('crypto');
+var moment = require('moment');
+var middleware = require('../middleware');
+var service = require('../service');
 
 var rsa = require('../rsa/rsa-bignum');
 
@@ -117,9 +121,56 @@ router.post('/nounce', function (req, res, next) {
 
 router.post('/regi', function (req, res, next) {
     console.log(req.body);
-    res.send("OK");
+    var vendedorNew = new vendedor({
+        nick: req.body.nick,
+        password: req.body.password
+    });
+
+    vendedorNew.save(function (err) {
+        if (err) {
+            console.log("\x1b[31m", "Error: " + err + " al intentar guardar el vendedor \n");
+            res.status(500).send("Se ha producido un error: " + err);
+        } else {
+            console.log("\x1b[33m", "Info: Todo ha ido bien \n");
+            res.status(200).send("Se ha guardado el vendedor correctamente");
+        }
+    });
+});
+router.post('/login', function (req, res, next) {
+    console.log(req.body);
+    vendedor.findOne({
+        "nick": req.body.nick
+    }, function (err, vendor) {
+        if (err) throw err;
+        if (!vendor) {
+            res.send(404, 'Pseudonimo no encontrado');
+        } else if (vendor) {
+            if (vendor.password != req.body.password) {
+                res.send(404, 'Password incorrecto');
+            } else {
+                /* var expires = moment().add(2, 'days').valueOf();
+                 var token = jwt.encode({iss: player._id, exp: expires}, Secret.phrase);
+                 res.send(200, {"player": player, "token": token});*/
+                // if user is found and password is right
+                // create a token
+                res.json({
+                    success: true,
+                    token: service.createToken(vendor),
+                    idvendor: vendor._id
+                });
+            }
+        }
+    });
+
 });
 
+//RUTA PRUEBA PROTEGIDA POR TOKEN//
+router.get('/prueba', middleware.ensureAuthenticated, function (req, res, next) {
+    console.log(req.nick);
+    res.json({
+        success: true
+    });
+});
 /* GET All Users */
 router.get('/usuarios', function (req, res, next) {
     usuario.find({}).sort({

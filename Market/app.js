@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var objetos = require('./routes/objetos');
+var objetos = require('./routes/Objetos');
 
 var app = express();
 
@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //fucking CORS
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Authorization,Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "*");
     next();
 });
