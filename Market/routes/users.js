@@ -138,7 +138,9 @@ router.post('/regi', function (req, res, next) {
 });
 router.post('/login', function (req, res, next) {
     console.log(req.body);
-    vendedor.findOne({"nick": req.body.nick}, function (err, vendor) {
+    vendedor.findOne({
+        "nick": req.body.nick
+    }, function (err, vendor) {
         if (err) throw err;
         if (!vendor) {
             res.send(404, 'Pseudonimo no encontrado');
@@ -163,11 +165,11 @@ router.post('/login', function (req, res, next) {
 });
 
 //RUTA PRUEBA PROTEGIDA POR TOKEN//
-router.get('/prueba',middleware.ensureAuthenticated, function (req, res, next) {
+router.get('/prueba', middleware.ensureAuthenticated, function (req, res, next) {
+    console.log(req.nick);
     res.json({
         success: true
     });
-   
 });
 /* GET All Users */
 router.get('/usuarios', function (req, res, next) {

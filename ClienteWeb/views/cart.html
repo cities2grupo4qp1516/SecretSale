@@ -1,0 +1,132 @@
+<div ng-controller="cartController">
+    <div class="site-branding-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="logo">
+                        <h1><span style="color:#222222;">Secret</span><span style="color:#1ABC9C;">Sale</span></a></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End site branding area -->
+
+    <div class="mainmenu-area">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#/">Home</a></li>
+                        <li><a href="#/login_vendedor">Login</a></li>
+                        <li><a href="#/reg_vendedor">Registro</a></li>
+                        <li><a href="#/objetos">Vender Algo</a></li>
+                        <li><a href="#/lista">Ver Productos</a></li>
+                        <li><a href="https://localhost:5000/firma_ciega" target="_blank">¿Quieres ser vendedor?</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End mainmenu area -->
+
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Cart</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="product-content-right">
+                        <div class="woocommerce">
+                            <form method="post" action="#">
+                                <table cellspacing="0" class="shop_table cart">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-remove">&nbsp;</th>
+                                            <th class="product-thumbnail">&nbsp;</th>
+                                            <th class="product-name">Producto</th>
+                                            <th class="product-price">precio</th>
+                                            <th class="product-quantity">cantidad</th>
+                                            <th class="product-subtotal">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="cart_item" ng-repeat="prod in cart.productos track by $index">
+                                            <td class="product-remove">
+                                                <a title="Remove this item" class="remove" href="#">×</a>
+                                            </td>
+
+                                            <td class="product-thumbnail">
+                                                <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{prod.url}}"></a>
+                                            </td>
+
+                                            <td class="product-name">
+                                                <a href="single-product.html">{{prod.nombre}}</a>
+                                            </td>
+
+                                            <td class="product-price">
+                                                <span class="amount">฿{{prod.precio}}</span>
+                                            </td>
+
+                                            <td class="product-quantity">
+                                                {{prod.cantidad}}
+                                            </td>
+
+                                            <td class="product-subtotal">
+                                                <span class="amount">฿{{prod.precio * prod.cantidad}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="actions" colspan="6">
+                                                <input type="submit" value="Pagar" name="proceed" class="checkout-button button alt wc-forward">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="copyright">
+                        <p>&copy; 2016 SecretSale. Algunos derechos reservados. Coded with <a href="http://putalocura.com" target="_blank"><i class="fa fa-trash"></i></a> by BestTeamEver</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="footer-card-icon">
+                        <i class="fa fa-btc">itcoin </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@
 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="cart.html">Cart - <span class="cart-amunt">฿800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a ui-sref="/cart">Cart - <span class="cart-amunt">฿{{cart.total}}</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">{{cart.totalProductos}}</span></a>
                     </div>
                 </div>
             </div>
@@ -31,14 +31,12 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active"><a href="shop.html">Shop page</a></li>
-                        <li><a href="single-product.html">Single product</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="#">Category</a></li>
-                        <li><a href="#">Others</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li class="active"><a href="#/">Home</a></li>
+                        <li><a href="#/login_vendedor">Login</a></li>
+                        <li><a href="#/reg_vendedor">Registro</a></li>
+                        <li><a href="#/objetos">Vender Algo</a></li>
+                        <li><a href="#/lista">Ver Productos</a></li>
+                        <li><a href="https://localhost:5000/firma_ciega" target="_blank">¿Quieres ser vendedor?</a></li>
                     </ul>
                 </div>
             </div>
@@ -74,40 +72,11 @@
                         </div>
 
                         <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="/canvas/shop/?add-to-cart=70">Añadir al carrito</a>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" ng-click="anadirProducto(objeto.precio, objeto.nombre, objeto.fotoprincipal)" href="">Añadir al carrito</a>
                         </div>
                     </div>
                 </div>
-
-
             </div>
-            <!--
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-pagination text-center">
-                    <nav>
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        -->
         </div>
     </div>
 
