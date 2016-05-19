@@ -96,7 +96,7 @@ secretSale.run(function ($templateCache, $http, $rootScope, $cookies) {
         cache: $templateCache
     });
 
-    console.log(JSON.parse($cookies.get("cart")));
+   // console.log(JSON.parse($cookies.get("cart")));
     if ($cookies.get("cart") == undefined) {
         $rootScope.cart = {};
         $rootScope.cart.total = 0;

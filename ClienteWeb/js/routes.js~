@@ -16,7 +16,7 @@
 */
 console.log("   _____                    _    _____       _                 .        . \n  / ____|                  | |  / ____|     | |               ;W       ;W \n | (___   ___  ___ _ __ ___| |_| (___   __ _| | ___          f#E      f#E \n  \\___ \\ / _ \\/ __| '__/ _ \\ __|\\___ \\ / _` | |/ _ \\       .E#f     .E#f  \n  ____) |  __/ (__| | |  __/ |_ ____) | (_| | |  __/      iWW;     iWW;   \n |_____/ \\___|\\___|_|  \\___|\\__|_____/ \\__,_|_|\\___|     L##Lffi  L##Lffi \n                                     By BestTeamEver    tLLG##L  tLLG##L  \n                                                          ,W#i     ,W#i   \n                                                         j#E.     j#E.    \n                                                       .D#j     .D#j      \n                                                      ,WK,     ,WK,       \n                                                      EG.      EG.        \n                                                      ,        ,          \n\n\n");
 
-var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles', 'oitozero.ngSweetAlert', 'validation', 'validation.rule']);
+var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles', 'oitozero.ngSweetAlert', 'validation', 'validation.rule', 'ngCookies']);
 
 secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -43,13 +43,12 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
 
         }).state('/login_vendedor', {
             url: "/login_vendedor",
-            templateUrl: "views/reg_vendedor.html",
+            templateUrl: "views/login_vendedor.html",
             data: {
                 css: ['views/css/objetos.css']
             }
 
-        })
-	.state('/objetos', {
+        }).state('/objetos', {
             url: "/objetos",
             templateUrl: "views/objetos.html",
             data: {
@@ -66,10 +65,13 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
         }).state('/lista', {
             url: "/lista",
             templateUrl: "views/listaObjetos.html"
+        }).state('/cart', {
+            url: "/cart",
+            templateUrl: "views/cart.html"
         });
 });
 
-secretSale.run(function ($templateCache, $http) {
+secretSale.run(function ($templateCache, $http, $rootScope, $cookies) {
     $http.get('views/404.html', {
         cache: $templateCache
     });
@@ -94,4 +96,13 @@ secretSale.run(function ($templateCache, $http) {
         cache: $templateCache
     });
 
+    console.log(JSON.parse($cookies.get("cart")));
+    if ($cookies.get("cart") == undefined) {
+        $rootScope.cart = {};
+        $rootScope.cart.total = 0;
+        $rootScope.cart.totalProductos = 0;
+        $rootScope.cart.productos = [];
+    } else {
+        $rootScope.cart = JSON.parse($cookies.get("cart"));
+    }
 });

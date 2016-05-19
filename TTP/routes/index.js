@@ -1,12 +1,25 @@
 var express = require('express');
 var bignum = require('bignum');
 var rsa = require('../rsa/rsa-bignum');
+var publicKeys = require('../models/publicKeys.js');
 var path = require('path');
 var router = express.Router();
 
 var keys = rsa.generateKeys(1024, function (keys) {
     console.log("Keys are ready!");
     console.log(keys);
+   publicKeys.findOneAndUpdate({
+        user: "TTP"
+    }, {
+        user: "TTP",
+        bits: keys.publicKey.bits,
+        e: keys.publicKey.e.toString(),
+        n: keys.publicKey.n.toString()
+    }, {
+        upsert: true
+    }, function (err) {
+        console.log(err);
+    });
 });
 
 /* GET home page. */
@@ -33,13 +46,27 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/publicKey', function (req, res, next) {
-    var publickey = {
-        bits: keys.publicKey.bits,
-        n: keys.publicKey.n.toString(),
-        e: keys.publicKey.e.toString()
-    };
-    console.log(publickey);
-    res.send(JSON.stringify(publickey));
+  publicKeys.findOne({
+      'user': "TTP"
+  }, function (err, pkeys) {
+      
+      if (err)
+          res.sendStatus(500);
+      else
+      if (pkeys){
+        var publickey = {
+            bits: pkeys.bits,
+            n: pkeys.n,
+            e: pkeys.e
+        };
+        console.log(publickey);
+        res.send(JSON.stringify(publickey));
+      }
+      else
+          res.sendStatus(404);
+  });
+
+
 
 });
 
