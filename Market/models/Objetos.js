@@ -34,7 +34,24 @@ var objetos = new Schema({
     },
     fotoprincipal: {
         type: String
-    }
+    },
+    comentarios: [{
+        nick: {
+            type: String
+        },
+        comentario: [{
+            puntuacion: {
+                type: String
+            },
+            descripcion: {
+                type: String
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }]
+    }]
 });
 
 module.exports = mongoose.model('objetos', objetos);

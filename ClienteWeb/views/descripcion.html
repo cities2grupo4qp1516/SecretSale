@@ -1,0 +1,158 @@
+<div ng-controller="descripcionController" ng-init="olakase=true;">
+    <div class="site-branding-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="logo">
+                        <h1><span style="color:#222222;">Secret</span><span style="color:#1ABC9C;">Sale</span></a></h1>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="shopping-item">
+                        <a ui-sref="/cart">Cart - <span class="cart-amunt">฿{{cart.total}}</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">{{cart.totalProductos}}</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End site branding area -->
+
+    <div class="mainmenu-area">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#/">Home</a></li>
+                        <li><a href="#/login_vendedor">Login</a></li>
+                        <li><a href="#/reg_vendedor">Registro</a></li>
+                        <li><a href="#/objetos">Vender Algo</a></li>
+                        <li><a href="#/lista">Ver Productos</a></li>
+                        <li><a href="https://localhost:5000/firma_ciega" target="_blank">¿Quieres ser vendedor?</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End mainmenu area -->
+
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Shop</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <div class="product-content-right">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="product-images">
+                                    <div class="product-main-img">
+                                        <img src="{{objeto.fotoprincipal}}" alt="">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="product-inner">
+                                    <h2 class="product-name">{{objeto.nombre}}</h2>
+                                    <div class="product-inner-price">
+                                        <ins>฿{{objeto.precio}}</ins>
+                                    </div>
+
+                                    <form action="" class="cart">
+                                        <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                    </form>
+
+                                    <div class="product-inner-category">
+                                        <p>Vendedor: <a href="">{{objeto.vendedor}}</a></p>
+                                    </div>
+
+                                    <div role="tabpanel">
+                                        <ul class="product-tab" role="tablist">
+                                            <li ng-click="olakase=true" role="presentation" class="active"><a aria-controls="home" role="tab" data-toggle="tab">Descripcion</a></li>
+                                            <li ng-click="olakase=false" role="presentation"><a aria-controls="profile" role="tab" data-toggle="tab">Comentarios</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div ng-show="olakase" role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <h2>Descripcion del producto</h2>
+                                                <p>{{objeto.descripcion}}</p>
+                                            </div>
+                                            <div ng-show="!olakase" role="tabpanel" class="tab-pane fade in active" id="profile">
+                                                <h2>Reviews</h2>
+                                                <div class="submit-review">
+                                                    <div class="rating-chooser">
+                                                        <p>Puntuacion</p>
+
+                                                        <div class="rating-wrap-post">
+                                                            <!-- <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>-->
+                                                            Pon tu nota:
+                                                            <input type="number" ng-model="nota" placeholder="5" max="10" min="0" />
+                                                        </div>
+                                                    </div>
+                                                    <p>
+                                                        <label for="review">Tu comentario</label>
+                                                        <textarea ng-model="comentario" name="review" id="" cols="30" rows="10"></textarea>
+                                                    </p>
+                                                    <p>
+                                                        <input type="submit" value="Enviar" ng-click="enviarComentario()" />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="copyright">
+                        <p>&copy; 2016 SecretSale. Algunos derechos reservados. Coded with <a href="http://putalocura.com" target="_blank"><i class="fa fa-trash"></i></a> by BestTeamEver</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="footer-card-icon">
+                        <i class="fa fa-btc">itcoin </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

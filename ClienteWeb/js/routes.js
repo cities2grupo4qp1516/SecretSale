@@ -26,48 +26,48 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
         .state('/', {
             url: "/",
             templateUrl: "views/vista.html"
-
         }).state('404', {
             url: "/404",
             templateUrl: "views/404.html",
             data: {
                 css: ['views/css/style-left-red.css', 'bower_components/vegas/dist/vegas.css', 'bower_components/animate.css/animate.min.css']
             }
-
         }).state('/reg_vendedor', {
             url: "/reg_vendedor",
             templateUrl: "views/reg_vendedor.html",
             data: {
                 css: ['views/css/objetos.css']
             }
-
         }).state('/login_vendedor', {
             url: "/login_vendedor",
             templateUrl: "views/login_vendedor.html",
             data: {
                 css: ['views/css/objetos.css']
             }
-
         }).state('/objetos', {
             url: "/objetos",
             templateUrl: "views/objetos.html",
             data: {
                 css: ['views/css/objetos.css']
             }
-
         }).state('/cliente', {
             url: "/cliente",
             templateUrl: "views/cliente.html",
             data: {
                 css: ['views/css/objetos.css']
             }
-
         }).state('/lista', {
             url: "/lista",
             templateUrl: "views/listaObjetos.html"
         }).state('/cart', {
             url: "/cart",
             templateUrl: "views/cart.html"
+        }).state('/descripcion', {
+            url: "/descripcion",
+            params: {
+                'objectName': "cosas"
+            },
+            templateUrl: "views/descripcion.html"
         });
 });
 
@@ -96,13 +96,14 @@ secretSale.run(function ($templateCache, $http, $rootScope, $cookies) {
         cache: $templateCache
     });
 
-    console.log(JSON.parse($cookies.get("cart")));
+    console.log($cookies.getObject("token"));
+    //console.log(JSON.parse($cookies.get("cart")));
     if ($cookies.get("cart") == undefined) {
         $rootScope.cart = {};
         $rootScope.cart.total = 0;
         $rootScope.cart.totalProductos = 0;
         $rootScope.cart.productos = [];
     } else {
-        $rootScope.cart = JSON.parse($cookies.get("cart"));
+        $rootScope.cart = ($cookies.getObject("cart"));
     }
 });
