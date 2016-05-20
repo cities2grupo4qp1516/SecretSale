@@ -24,6 +24,7 @@
     "moment": "^2.13.0",
     "mongoose": "^4.4.13",
     "morgan": "~1.6.1",
+    "number-theory": "^1.1.0",
     "serve-favicon": "~2.3.0",
     "sockjs": "^0.3.17",
     "terminal-kit": "^0.24.2"

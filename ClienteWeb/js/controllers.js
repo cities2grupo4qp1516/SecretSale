@@ -475,7 +475,7 @@ secretSale.controller("listaObjetos", function ($rootScope, $scope, $http, confi
     }
 })
 
-.controller("objetosController", function ($rootScope, $scope, $http, config, SweetAlert, $injector) {
+.controller("objetosController", function ($rootScope, $scope, $state, $http, config, SweetAlert, $injector) {
     $scope.objeto = {};
     var foto;
     $scope.ojo = false;
@@ -527,7 +527,7 @@ secretSale.controller("listaObjetos", function ($rootScope, $scope, $http, confi
                     confirmButtonText: "Continuar",
                 },
                 function () {
-                    console.log("weee");
+                    $state.go("/");
                 });
         }).error(function (data) {
             console.log(data);
