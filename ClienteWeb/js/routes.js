@@ -16,7 +16,7 @@
 */
 console.log("   _____                    _    _____       _                 .        . \n  / ____|                  | |  / ____|     | |               ;W       ;W \n | (___   ___  ___ _ __ ___| |_| (___   __ _| | ___          f#E      f#E \n  \\___ \\ / _ \\/ __| '__/ _ \\ __|\\___ \\ / _` | |/ _ \\       .E#f     .E#f  \n  ____) |  __/ (__| | |  __/ |_ ____) | (_| | |  __/      iWW;     iWW;   \n |_____/ \\___|\\___|_|  \\___|\\__|_____/ \\__,_|_|\\___|     L##Lffi  L##Lffi \n                                     By BestTeamEver    tLLG##L  tLLG##L  \n                                                          ,W#i     ,W#i   \n                                                         j#E.     j#E.    \n                                                       .D#j     .D#j      \n                                                      ,WK,     ,WK,       \n                                                      EG.      EG.        \n                                                      ,        ,          \n\n\n");
 
-var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles', 'oitozero.ngSweetAlert', 'validation', 'validation.rule', 'ngCookies']);
+var secretSale = angular.module('secretSale', ['jsbn.BigInteger', 'ui.router', 'uiRouterStyles', 'oitozero.ngSweetAlert', 'validation', 'validation.rule', 'ngCookies', 'bd.sockjs']);
 
 secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
@@ -71,7 +71,8 @@ secretSale.config(function ($stateProvider, $urlRouterProvider, $locationProvide
         });
 });
 
-secretSale.run(function ($templateCache, $http, $rootScope, $cookies) {
+secretSale.run(function ($templateCache, $http, $rootScope, $cookies, mySocket) {
+    $rootScope.verChat = false;
     $http.get('views/404.html', {
         cache: $templateCache
     });
@@ -96,7 +97,20 @@ secretSale.run(function ($templateCache, $http, $rootScope, $cookies) {
         cache: $templateCache
     });
 
-    console.log($cookies.getObject("token"));
+    function sendMessage(mensaje) {
+        mySocket.send(mensaje);
+    };
+
+    var token = $cookies.getObject("token");
+    console.log(token);
+    /* if (token != undefined) {
+         if (token.tipo == "vendedor") {
+             sendMessage(JSON.stringify({
+                 tipo: 0,
+                 nombre: token.nick
+             }));
+         }
+     }*/
     //console.log(JSON.parse($cookies.get("cart")));
     if ($cookies.get("cart") == undefined) {
         $rootScope.cart = {};

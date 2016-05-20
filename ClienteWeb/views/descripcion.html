@@ -86,7 +86,11 @@
                                     </form>
 
                                     <div class="product-inner-category">
-                                        <p>Vendedor: <a href="">{{objeto.vendedor}}</a></p>
+                                        <p>Vendedor:
+                                            <a ng-show="!rojo" style="color:green" href="" ng-click="torbeLopeta(objeto.vendedor);">{{objeto.vendedor}}</a>
+
+                                            <a ng-show="rojo" style="color:red" href="">{{objeto.vendedor}}</a>
+                                        </p>
                                     </div>
 
                                     <div role="tabpanel">

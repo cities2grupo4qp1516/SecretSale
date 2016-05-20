@@ -54,14 +54,90 @@ secretSale.controller("listaObjetos", function ($rootScope, $scope, $http, confi
     }
 })
 
-.controller("descripcionController", function ($cookies, $rootScope, $scope, $http, config, Base64, rsaKey, BigInteger, SweetAlert, $stateParams) {
+.controller("chat", function ($cookies, $rootScope, $scope, $http, config, Base64, rsaKey, BigInteger, SweetAlert, $stateParams, mySocket) {
+    function sendMessage(mensaje) {
+        mySocket.send(mensaje);
+    };
+
+    function rc4(key, str) {
+        var s = [],
+            j = 0,
+            a, res = '';
+        for (var i = 0; i <= 255; i++) {
+            s[i] = i;
+        }
+        /*
+            j=0;
+            for i = 0 to 255
+            {
+               j = (j+S[i] + K[i]) mod 256;
+               intercambia S[i] and S[j];
+            }   
+        */
+        for (i = 0; i <= 255; i++) {
+            j = (j + s[i] + key.charCodeAt(i % key.length)) % 256;
+            a = s[i];
+            s[i] = s[j];
+            s[j] = a;
+        }
+
+        /*
+        i = (i + 1) mod 256;
+        j = (j + S[i]) mod 256;
+        intercambia S[i] and S[j];
+        t = (S[i] + S[j]) mod 256;
+        Exponer valor de S[t];
+        */
+        i = 0;
+        j = 0;
+        for (var b = 0; b < str.length; b++) {
+            i = (i + 1) % 256;
+            j = (j + s[i]) % 256;
+            a = s[i];
+            s[i] = s[j];
+            s[j] = a;
+            res += String.fromCharCode(str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]);
+            //res += (str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]).toString();
+        }
+        return res;
+    }
+    $scope.click = function () {
+        console.log($scope.msj);
+        sendMessage(JSON.stringify({
+            tipo: 23,
+            mensaje: rc4($rootScope.clave, $scope.msj),
+            para: $rootScope.hablandocon,
+            de: $cookies.getObject("token").nick
+        }));
+        $rootScope.mensajes.push({
+            mensaje: $scope.msj,
+            para: $rootScope.hablandocon,
+            de: $cookies.getObject("token").nick
+
+        });
+        $scope.msj = "";
+    }
+})
+
+.controller("descripcionController", function ($cookies, $rootScope, $scope, $http, config, Base64, rsaKey, BigInteger, SweetAlert, $stateParams, mySocket) {
     $http.get(config.URLSSS + "objetos/filtro/?nombre=" + $stateParams.objectName).success(function (data) {
         console.log(data[0]);
         $scope.objeto = data[0];
-
+        $http.get(config.URLSSS).success(function (data2) {
+            console.log(data2.indexOf(data[0].vendedor));
+            if (data2.indexOf(data[0].vendedor) == -1) {
+                $scope.rojo = true;
+            } else {
+                $scope.rojo = false;
+            }
+        }).error(function (data) {
+            console.log(data);
+        });
     }).error(function (data) {
         console.log(data);
     });
+
+
 
     $scope.enviarComentario = function () {
         var objeto = {
@@ -80,6 +156,22 @@ secretSale.controller("listaObjetos", function ($rootScope, $scope, $http, confi
         }).error(function (data) {
             console.log(data);
         });
+    }
+
+    function sendMessage(mensaje) {
+        mySocket.send(mensaje);
+    };
+
+    $scope.torbeLopeta = function (a) {
+        $rootScope.verChat = true;
+
+        var puta = JSON.stringify({
+            tipo: 69,
+            para: a,
+            de: $cookies.getObject("token").nick
+        });
+        sendMessage(puta);
+        $rootScope.hablandocon = a;
     }
 })
 
@@ -530,5 +622,21 @@ secretSale.controller("listaObjetos", function ($rootScope, $scope, $http, confi
         //$rootScope.cart.productos.splice(a, 1);
         $cookies.putObject("cart", $rootScope.cart);
         console.log($rootScope.cart);
+    }
+})
+
+.controller("casa", function ($rootScope, $scope, $http, config, $cookies, $state) {
+    $http.get(config.URLSSS + "objetos/filtro/").success(function (data) {
+        console.log(data[0]);
+        $scope.casica = data;
+        console.log($scope.casica);
+    }).error(function (data) {
+        console.log(data);
+    });
+
+    $scope.verObjeto = function (a) {
+        $state.go("/descripcion", {
+            objectName: a
+        });
     }
 })

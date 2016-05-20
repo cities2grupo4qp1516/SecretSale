@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="casa">
     <div class="site-branding-area">
         <div class="container">
             <div class="row">
@@ -127,49 +127,51 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="latest-product">
-                        <h2 class="section-title">Latest Products</h2>
-                        <div class="product-carousel">
+                        <h2 class="section-title">Ultimos Productos</h2>
+                        <div class="product-carousel" ng-repeat="cas in casica|limitTo:4">
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="img/product-1.jpg" alt="">
+                                    <img width="auto" src="{{cas.fotoprincipal}}" alt="">
                                     <div class="product-hover">
-                                        <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                        <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Comprar</a>
+                                        <a ng-click="verObjeto(cas.nombre)" href="" class="view-details-link"><i class="fa fa-link"></i> detalles</a>
                                     </div>
                                 </div>
 
-                                <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
+                                <h2><a href="single-product.html">{{cas.nombre}}</a></h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$700.00</ins> <del>$800.00</del>
+                                    <ins>{{cas.precio}}</ins>
                                 </div>
                             </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="product-widget-area">
+            <div class="zigzag-bottom"></div>
+        </div>
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="copyright">
+                            <p>&copy; 2016 SecretSale. Algunos derechos reservados. Coded with <a href="http://putalocura.com" target="_blank"><i class="fa fa-trash"></i></a> by BestTeamEver</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="footer-card-icon">
+                            <i class="fa fa-btc">itcoin </i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <div class="product-widget-area">
-        <div class="zigzag-bottom"></div>
-    </div>
-    <div class="footer-bottom-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="copyright">
-                        <p>&copy; 2016 SecretSale. Algunos derechos reservados. Coded with <a href="http://putalocura.com" target="_blank"><i class="fa fa-trash"></i></a> by BestTeamEver</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="footer-card-icon">
-                        <i class="fa fa-btc">itcoin </i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

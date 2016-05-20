@@ -27,7 +27,16 @@ var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var objetos = require('./routes/Objetos');
+var sockjs = require('sockjs');
+var fs = require('fs');
+var https = require('https');
+var divisors = require('number-theory');
 
+var options = {
+    key: fs.readFileSync('secretsale.key'),
+    cert: fs.readFileSync('secretsale.crt'),
+    passphrase: 'makitos666'
+};
 var app = express();
 
 
@@ -55,9 +64,14 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', routes);
+//app.use('/', routes);
 app.use('/users', users);
 app.use('/objetos', objetos);
+
+app.get('/', function (req, res) {
+    res.send(connections2);
+});
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -99,3 +113,230 @@ mongoose.connect("mongodb://localhost/SecretSale", function (err, res) {
 });
 
 module.exports = app;
+
+function rc4(key, str) {
+    var s = [],
+        j = 0,
+        a, res = '';
+    for (var i = 0; i <= 255; i++) {
+        s[i] = i;
+    }
+    /*
+        j=0;
+        for i = 0 to 255
+        {
+           j = (j+S[i] + K[i]) mod 256;
+           intercambia S[i] and S[j];
+        }   
+    */
+    for (i = 0; i <= 255; i++) {
+        j = (j + s[i] + key.charCodeAt(i % key.length)) % 256;
+        a = s[i];
+        s[i] = s[j];
+        s[j] = a;
+    }
+
+    /*
+    i = (i + 1) mod 256;
+    j = (j + S[i]) mod 256;
+    intercambia S[i] and S[j];
+    t = (S[i] + S[j]) mod 256;
+    Exponer valor de S[t];
+    */
+    i = 0;
+    j = 0;
+    for (var b = 0; b < str.length; b++) {
+        i = (i + 1) % 256;
+        j = (j + s[i]) % 256;
+        a = s[i];
+        s[i] = s[j];
+        s[j] = a;
+        res += String.fromCharCode(str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]);
+        //res += (str.charCodeAt(b) ^ s[(s[i] + s[j]) % 256]).toString();
+    }
+    return res;
+}
+var connections = [];
+var connections2 = [];
+var clientes = [];
+var usuariosConectados = 0;
+var chat = sockjs.createServer();
+/*var arrayFound = obj.ite  ms.filter(function(item) {
+    return item.isRight == 1;
+})*/
+function searchUserByConn(conn) {
+
+    var a = conn.id;
+    var c = -1;
+    console.log(connections.length);
+    for (var i = 0; connections.length > i; i++) {
+        if (connections[i] != null) {
+            var b = connections[i].id;
+
+            if (a == b) {
+                c = i;
+                console.log(c);
+            }
+        }
+    }
+    return connections2[c];
+};
+
+chat.on('connection', function (conn) {
+    conn.on('data', function (message) {
+        var data = JSON.parse(message);
+        console.log(message);
+        switch (data.tipo) {
+        case 0:
+            //vendor registration
+            connections.push({
+                nick: data.nombre,
+                conn: conn
+            });
+            connections2.push(data.nombre);
+            console.log(connections);
+
+            break;
+        case 23:
+            connections.filter(function (item) {
+                return item.nick == data.para;
+            })[0].conn.write(JSON.stringify({
+                Type: 24,
+                mensaje: data.mensaje,
+                de: data.de,
+                para: data.para
+            }));
+            break;
+        case 69:
+            console.log(data);
+            connections.push({
+                nick: data.de,
+                conn: conn
+            });
+
+            var caca = divisors.primitiveRoot(157457);
+
+            connections.filter(function (item) {
+                return item.nick == data.para;
+            })[0].conn.write(JSON.stringify({
+                Type: 90,
+                cliente: data.de,
+                g: caca,
+                p: 157457
+            }));
+
+            connections.filter(function (item) {
+                return item.nick == data.para;
+            })[0].conn.write(JSON.stringify({
+                Type: 12,
+                cliente: data.de,
+                g: caca,
+                p: 157457
+            }));
+
+            connections.filter(function (item) {
+                return item.nick == data.de;
+            })[0].conn.write(JSON.stringify({
+                Type: 12,
+                cliente: data.de,
+                g: caca,
+                p: 157457
+            }));
+
+            //conn.write(JSON.stringify(MsjToA));
+            break;
+        case 1:
+            //  TTP, B, M, PO
+            /*  TTP → A : A, B, TR, L, PS
+             3. TTP → B : A, L, PO*/
+
+            var MsjToA = {
+                A: searchUserByConn(conn),
+                B: data.B,
+                Tr: Date.now(),
+                L: L,
+                Ps: "Ps",
+                Type: 1
+            };
+
+            var Ps = bignum.fromBuffer(new Buffer(MsjToA.A + "," + MsjToA.B + "," + MsjToA.Tr + "," + MsjToA.L + "," + data.Po));
+            Ps = keys_TTP.privateKey.encrypt(Ps);
+            MsjToA.Ps = Ps.toBuffer().toString('base64');
+            console.log("MsjToA:");
+            console.log(MsjToA);
+            conn.write(JSON.stringify(MsjToA));
+
+            var msjToB = {
+                A: searchUserByConn(conn),
+                L: L,
+                Po: data.Po,
+                Type: 2
+            };
+
+            console.log("msjToB:");
+            console.log(msjToB);
+            connections[connections2.indexOf(data.B)].write(JSON.stringify(msjToB));
+            mensajes[L] = {
+                mensaje: data.M,
+                from: searchUserByConn(conn),
+                to: data.B
+            };
+            L++;
+
+
+            break;
+
+        case 2:
+            /*    5. TTP → B : L, M
+             4. TTP → A : A, B, TD, L, K, PR, PD*/
+
+            var Pd = bignum.fromBuffer(new Buffer(mensajes[data.L].from + "," + mensajes[data.L].to + "," + Date.now() + "," + data.L + "," + data.Pr));
+            Pd = keys_TTP.privateKey.encrypt(Pd);
+            var pd = Pd.toBuffer().toString('base64');
+
+            var msjFromTTPtoA = {
+                A: mensajes[data.L].from,
+                B: mensajes[data.L].to,
+                Td: Date.now(),
+                L: data.L,
+                K: "K",
+                Pr: data.Pr,
+                Pd: pd
+            }
+            console.log("msjFromTTPtoA:");
+            console.log(msjFromTTPtoA);
+            connections[connections2.indexOf(mensajes[data.L].to)].write(JSON.stringify(msjFromTTPtoA));
+
+            var msjFromAtoB = {
+                L: data.L,
+                M: mensajes[data.L].mensaje,
+                Type: 3
+            };
+            if (mensajes[data.L].mensaje == "Juan, esto va a fallar") {
+                msjFromAtoB.M = "Ves, ha fallado";
+            };
+
+
+            console.log("msjFromAtoB:");
+            console.log(msjFromAtoB);
+            conn.write(JSON.stringify(msjFromAtoB));
+
+            break;
+        }
+    });
+    conn.on('close', function () {
+        console.log("pepe");
+        console.log(connections.filter(function (item) {
+            return item.conn.id == conn.id;
+        }).nick)
+
+    });
+});
+
+
+var server = https.createServer(options);
+chat.installHandlers(server, {
+    prefix: '/chat'
+});
+
+server.listen(9999, '0.0.0.0');
