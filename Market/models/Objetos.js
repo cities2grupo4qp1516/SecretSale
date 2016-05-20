@@ -8,6 +8,27 @@ var objetos = new Schema({
     descripcion: {
         type: String
     },
+    bits: {
+        type: String
+    },
+    n: {
+        type: String
+    },
+    g: {
+        type: String
+    },
+    lambda: {
+        type: String
+    },
+    mu: {
+        type: String
+    },
+    p: {
+        type: String
+    },
+    q: {
+        type: String
+    },
     vendedor: {
         type: String
     },
@@ -21,11 +42,9 @@ var objetos = new Schema({
         type: String
     },
     nota: {
-        type: Number
+        type: String
     },
-    contnotas: {
-        type: Number
-    },
+
     comentarios: {
         type: [String]
     },
@@ -34,7 +53,24 @@ var objetos = new Schema({
     },
     fotoprincipal: {
         type: String
-    }
+    },
+    comentarios: [{
+        nick: {
+            type: String
+        },
+        comentario: [{
+            puntuacion: {
+                type: String
+            },
+            descripcion: {
+                type: String
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }]
+    }]
 });
 
 module.exports = mongoose.model('objetos', objetos);

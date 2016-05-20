@@ -27,14 +27,14 @@
 
         <div class="body" ng-show="b">
             <form enctype='multipart/form-data' name="Form">
-                <input type="text" id="user" placeholder="aa" ng-model="nick">
-                <p style="margin-left: 3%;color:red" ng-show=n>*Se requiere Pseudonimo</p>
+                <input type="text" id="user" placeholder="nick" ng-model="nickc">
+                <p style="margin-left: 3%;color:red" ng-show=n>*Se requiere nick</p>
 
-                <input type="password" id="pass" placeholder="bb" ng-model="passw">
+                <input type="password" id="pass" placeholder="password" ng-model="passwc">
                 <p style="margin-left: 3%;color:red" ng-show=p>*Se requiere Password</p>
 
                 <div class="enviar">
-                    <button style="border-radius: 9px;border:3px solid #A9A9A9;" class="buto" type="submit" ng-click="login()">Login</ button>
+                    <button style="border-radius: 9px;border:3px solid #A9A9A9;" class="buto" type="submit" ng-click="loginc()">Login</ button>
                 </div>
                 <span ng-if="display(nick.length,passw.length)">
     		</span>

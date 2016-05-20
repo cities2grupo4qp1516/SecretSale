@@ -7,14 +7,15 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var usuario = require('../models/Usuarios.js');
 var vendedor = require('../models/Vendedor.js')
+var Object = require('../models/Objetos.js')
 var router = express.Router();
 var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes_usuario/';
 var crypto = require('crypto');
 var moment = require('moment');
 var middleware = require('../middleware');
 var service = require('../service');
-
 var rsa = require('../rsa/rsa-bignum');
+var paillier = require('../rsa/rsa-pallier');
 
 var camachoSabeSiLeMientesPeroLaVerdadEsQueLeDaIgual = [];
 
@@ -137,31 +138,66 @@ router.post('/regi', function (req, res, next) {
     });
 });
 router.post('/login', function (req, res, next) {
-    console.log(req.body);
-    vendedor.findOne({
-        "nick": req.body.nick
-    }, function (err, vendor) {
-        if (err) throw err;
-        if (!vendor) {
-            res.send(404, 'Pseudonimo no encontrado');
-        } else if (vendor) {
-            if (vendor.password != req.body.password) {
-                res.send(404, 'Password incorrecto');
-            } else {
-                /* var expires = moment().add(2, 'days').valueOf();
-                 var token = jwt.encode({iss: player._id, exp: expires}, Secret.phrase);
-                 res.send(200, {"player": player, "token": token});*/
-                // if user is found and password is right
-                // create a token
-                res.json({
-                    success: true,
-                    token: service.createToken(vendor),
-                    idvendor: vendor._id
-                });
+    console.log(req.body.tipo);
+    if (req.body.tipo == "vendedor") {
+        vendedor.findOne({
+            "nick": req.body.nick
+        }, function (err, vendor) {
+            if (err) throw err;
+            if (!vendor) {
+                res.send(404, 'Pseudonimo no encontrado');
+            } else if (vendor) {
+                if (vendor.password != req.body.password) {
+                    res.send(404, 'Password incorrecto');
+                } else {
+                    res.json({
+                        success: true,
+                        token: service.createToken(vendor),
+                        idvendor: vendor._id,
+                        nick: vendor.nick,
+                        tipo: "vendedor"
+                    });
+                }
             }
-        }
-    });
+        });
+    } else if (req.body.tipo == "cliente") {
+        usuario.findOne({
+            "nick": req.body.nick
+        }, function (err, usuario) {
+            if (err) throw err;
+            if (!usuario) {
+                res.send(404, 'Nick no encontrado');
+            } else if (usuario) {
+                if (usuario.password != req.body.password) {
+                    res.send(404, 'Password incorrecto');
+                } else {
+                    res.json({
+                        success: true,
+                        token: service.createToken(usuario),
+                        idvendor: usuario._id,
+                        nick: usuario.nick,
+                        tipo: "cliente"
+                    });
+                }
+            }
+        });
+    } else {
+        res.sendStatus(500);
+    }
+});
 
+router.get("/comprar", function (req, res, next) {
+
+    //"573ac82e629b9174330cce06"
+    usuario.update({
+        _id: "573ac82e629b9174330cce06"
+    }, {
+        $addToSet: {
+            productosComprados: "afseda"
+        }
+    }, function (data, ok) {
+        console.log(ok);
+    })
 });
 
 //RUTA PRUEBA PROTEGIDA POR TOKEN//
@@ -295,6 +331,88 @@ router.post('/usuarios', multipartMiddleware, function (req, res, next) {
         }
 
     }
+});
+
+router.post('/buy/:nombre', function (req, res, next) {
+    console.log(req.params.nombre);
+    console.log(req.body);
+    var privada = {};
+    var publica = {};
+
+
+    Object.update({
+            "nombre": req.params.nombre
+        }, {
+            $push: {
+                comentarios: req.body.comentarios
+            }
+        },
+        function (data, ok) {
+            Object.findOne({
+                "nombre": req.params.nombre
+            }, function (err, objects) {
+                if (err) {
+                    res.sendStatus(500);
+                }
+                else if (objects) {
+                    publica = new paillier.publicKey(objects.bits, bignum(objects.n),bignum(objects.g));
+                    privada = new paillier.privateKey(bignum(objects.lambda), bignum(objects.mu), bignum(objects.p), bignum(objects.q), publica);
+                       // keys.privateKey = new paillier.privateKey(lambda, mu, p, q, keys.publicKey);
+                  var suma=0;
+                    for (var i=0; i<objects.comentarios.length; i++ ){
+                        var points = JSON.stringify(objects.comentarios[i]).split('{')[3].split('\"')[15];
+                        if (i==0){
+                            suma = points;
+                        }
+                        else{
+                            //
+                        suma = bignum(suma).mul(bignum(points)).mod(bignum(objects.n).pow(2));
+
+                        }
+
+                    }
+                    console.log (suma);
+                    var sumaDecrip = privada.decrypt(suma);
+                   // suma =  keys_paillier.privateKey.decrypt(addEncriptada);
+                    console.log(sumaDecrip.toString());
+
+                    Object.update({
+                        "nombre": req.params.nombre
+                    }, {
+
+                            nota: sumaDecrip.div(bignum(objects.comentarios.length)).toString()
+
+                    },function (a,b){
+                        console.log (a);
+                        console.log (b);
+                    });
+
+                 }
+                else
+            {
+                res.sendStatus(404);
+            }
+            });
+            console.log(ok);
+        })
+
+    /* Object.findOne({
+         "nombre": req.params.nombre
+     }, function (err, object) {
+         if (err) throw err;
+         if (!object) {
+             res.send(404, 'Producto no encontrado');
+         } else if (object) {
+             object.comentarios = req.body.comentarios;
+
+
+             object.save(function (err, object) {
+                 if (err) return res.status(500).send(err.message);
+                 res.status(200).jsonp(object);
+             });
+         }
+     });*/
+
 });
 
 module.exports = router;

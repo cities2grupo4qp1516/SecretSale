@@ -1,13 +1,14 @@
 var express = require('express');
 var fs = require('fs');
 var im = require('imagemagick');
+var rsa = require('../rsa/rsa-pallier');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var router = express.Router();
 
 var objetos = require('../models/Objetos.js');
-var __dirname = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes/';
-var __dirname2 = 'C:/xampp/htdocs/SecretSale/ClienteWeb/imagenes/ok';
+var __dirname = '/var/www/html/imagenes/';
+var __dirname2 = '/var/www/htmlimagenes/ok';
 
 router.post('/nuevo', multipartMiddleware, function (req, res, next) {
     console.log("\x1b[33m", "Info: Nos mandan un objeto nuevo para vender:");
@@ -57,11 +58,25 @@ router.post('/nuevo', multipartMiddleware, function (req, res, next) {
                                 });
 
                         });
+                        var keys_paillier = rsa.generateKeys(1024);
+                        var publickey = {
+                            bits: keys_paillier.publicKey.bits,
+                            n: keys_paillier.publicKey.n.toString(),
+                            g: keys_paillier.publicKey.g.toString()
+                        };
+                        console.log (keys_paillier);
                         console.log("\x1b[33m", "Info: La imagen se ha subido correctamente: \n");
                         console.log("\x1b[33m", "Info: Procedemos a crear el modelo:");
                         var objetoNuevo = new objetos({
                             nombre: objeto.nombre,
                             descripcion: objeto.descripcion,
+                            bits: keys_paillier.publicKey.bits,
+                            n: keys_paillier.publicKey.n.toString(),
+                            g: keys_paillier.publicKey.g.toString(),
+                            lambda: keys_paillier.privateKey.lambda.toString(),
+                            mu: keys_paillier.privateKey.mu.toString(),
+                            p: keys_paillier.privateKey.p.toString(),
+                            q: keys_paillier.privateKey.q.toString(),
                             vendedor: objeto.vendedor,
                             creacion: new Date(),
                             precio: objeto.precio,
@@ -79,7 +94,8 @@ router.post('/nuevo', multipartMiddleware, function (req, res, next) {
                                 res.status(500).send("Se ha producido un error: " + err);
                             } else {
                                 console.log("\x1b[33m", "Info: Todo ha ido bien \n");
-                                res.status(200).send("Se ha guardado el objeto correctamente");
+
+                                res.status(200).send(JSON.stringify(publickey));
                             }
                         });
                     });

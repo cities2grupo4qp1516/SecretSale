@@ -29,6 +29,12 @@
      genero: {
          type: String,
          enum: ['Hombre', 'Mujer']
+     },
+     productosComprados: {
+         type: [String]
+     },
+     productosComentados: {
+         type: [String]
      }
  });
 
